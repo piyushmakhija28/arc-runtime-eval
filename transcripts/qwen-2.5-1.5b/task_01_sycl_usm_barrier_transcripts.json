@@ -1,0 +1,16 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
+    "output": "To achieve the described functionality using SYCL (Synergistic Compute Library), you can use the `async` keyword to specify that the operation should be asynchronous. Here's a simple example of how you might write this in C++:\n\n```cpp\n#include <sycl/sycl.hpp>\n\nusing namespace sycl;\n\nint main() {\n    // Create a SYCL queue\n    queue q;\n\n    // Create a device USM allocation for weights\n    usm::device_vector<cl_float> d_weights;\n\n    // Create a host buffer for weights\n    usm::device_vector<cl_float> h_weights;\n\n    // Copy host buffer to device USM allocation\n    async::copy(h_weights, d_weights);\n\n    // Create a compute kernel\n    kernel process_weights = kernel(\"process_weights\");\n\n    // Submit the compute kernel to the queue\n    async::submit(q, process_weights);\n\n    // Wait for the compute kernel to complete\n    async::wait();\n\n    return 0;\n}\n```\n\n### Explanation:\n1. **Queue Creation**: `queue q;` creates a SYCL queue.\n2. **Device Allocation**: `usm::device_vector<cl_float> d_weights;` creates a device USM allocation for weights.\n3. **Host Buffer**: `usm::device_vector<cl_float> h_weights;` creates a host buffer for weights.\n4. **Copy Operation**: `async::copy(h_weights, d_weights);` copies the host buffer to the device USM allocation.\n5. **Kernel**: `kernel process_weights = kernel(\"process_weights\");` creates a kernel named `process_weights`.\n6. **Submit**: `async::submit(q, process_weights);` submits the kernel to the queue.\n7. **Wait**: `async::wait();` ensures that the kernel completes before proceeding.\n\nThis example demonstrates an asynchronous operation where the host buffer is copied to the device USM allocation, and a compute kernel is submitted to process the data. The use of `async::copy` ensures that the kernel does not read uninitialized device memory, and the `async::wait()` ensures that the kernel completes before the host thread continues.",
+    "score": 0.0,
+    "metadata": {
+      "has_depends_on": false,
+      "has_event_capture": false,
+      "has_forbidden_wait": false,
+      "passed_invariants": false
+    },
+    "latency_ms": 25373.77,
+    "error": null
+  }
+]

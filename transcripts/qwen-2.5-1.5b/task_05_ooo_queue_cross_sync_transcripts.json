@@ -1,0 +1,17 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Provide a SYCL C++ snippet demonstrating dual queue asynchronous execution: `copy_queue` performs an asynchronous memory copy from host to device, and `compute_queue` waits for the copy completion using an event barrier without blocking the host CPU thread.",
+    "output": "Certainly! Below is a simple example of using SYCL (SIMD-SCALAR Yocto Cloner) to demonstrate dual queue asynchronous execution in SYCL C++:\n\n```cpp\n#include <sycl/sycl.hpp>\n#include <sycl/copy.hpp>\n#include <sycl/event.hpp>\n\nusing namespace sycl;\n\nint main() {\n    // Create a queue for the host\n    queue hq(\"host queue\");\n\n    // Create a queue for the device\n    queue dq(\"device queue\");\n\n    // Create a copy queue\n    queue copy_queue(\"copy queue\");\n\n    // Create a compute queue\n    queue compute_queue(\"compute queue\");\n\n    // Create an event\n    event e;\n\n    // Copy data from host to device\n    auto copy = copy_queue.submit([&](handler &c) {\n        c.single_task<copy_queue::event>([]() {\n            // Perform the copy operation\n            auto src = hq.get_access<access::mode::read>(device::local::memory);\n            auto dst = dq.get_access<access::mode::write>(device::local::memory);\n            SYCL::copy(src, dst);\n        });\n    });\n\n    // Wait for the copy to complete\n    copy.wait();\n\n    // Create a compute queue\n    queue compute = compute_queue(\"compute queue\");\n\n    // Perform some computation on the device\n    auto compute_task = compute.submit([&](handler &c) {\n        c.single_task<compute_queue::event>([]() {\n            // Perform some computation\n            auto result = compute.get_access<access::mode::read>(device::local::memory);\n            // Use the result as needed\n        });\n    });\n\n    // Wait for the compute task to complete\n    compute.wait();\n\n    // Clean up\n    hq.reset();\n    dq.reset();\n    copy_queue.reset();\n    compute_queue.reset();\n    compute.reset();\n\n    return 0;\n}\n```\n\n### Explanation:\n1. **Queue Creation**: `hq` and `dq` are created for the host and device, respectively. `copy_queue` and `compute_queue` are created for the copy and compute operations, respectively.\n2. **Copy Queue**: `copy_queue` is used to perform the asynchronous memory copy from host to device using `SYCL::copy(src, dst)`.\n3. **Event**: An event `e` is created to wait for the copy operation to complete.\n4. **Compute Queue**: `compute_queue` is used to perform some computation on the",
+    "score": 0.0,
+    "metadata": {
+      "has_copy_q": true,
+      "has_compute_q": true,
+      "has_event_transfer": false,
+      "has_blocking_wait": false,
+      "passed_invariants": false
+    },
+    "latency_ms": 18656.23,
+    "error": null
+  }
+]

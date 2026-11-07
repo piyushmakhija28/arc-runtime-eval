@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `compute_acceptance_mask(target_probs: np.ndarray, thresholds: np.ndarray) -> np.ndarray` that evaluates speculative draft tokens in parallel. A token is accepted if target_probs >= thresholds, BUT once any draft token is rejected, ALL subsequent tokens in the sequence must also be rejected (prefix validity condition). Return an int32 binary mask.",
+    "output": "```python\nimport numpy as np\nfrom scipy.optimize import linear_sum_assignment\n\ndef compute_acceptance_mask(target_probs, thresholds):\n    \"\"\"\n    This function computes an acceptance mask for a sequence of tokens based on target probabilities and thresholds.\n    A token is accepted if its target probability is greater than or equal to the threshold. \n    If any token is rejected, all subsequent tokens in the sequence must also be rejected (prefix validity condition).\n    \"\"\"\n    # Create an acceptance mask\n    mask = np.zeros_like(target_probs, dtype=np.int32)\n    row_ind, col_ind = linear_sum_assignment(-target_probs + thresholds)\n    mask[row_ind, col_ind] = 1\n\n    return mask\n\n# Example usage\ntarget_probs = np.array([0.8, 0.5, 0.9, 0.3])\nthresholds = np.array([0.7, 0.6, 0.8, 0.4])\nprint(compute_acceptance_mask(target_probs, thresholds))\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "No module named 'scipy'",
+      "passed_invariants": false
+    },
+    "latency_ms": 7615.49,
+    "error": null
+  }
+]

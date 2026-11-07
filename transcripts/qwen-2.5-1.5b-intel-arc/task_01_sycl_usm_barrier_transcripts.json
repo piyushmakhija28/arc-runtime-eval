@@ -1,0 +1,16 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
+    "output": "To achieve the described functionality using SYCL (Synergistic Compute Library), you can use the following C++ snippet. This snippet demonstrates how to copy a host buffer to a device USM allocation and then submit a compute kernel to process the data.\n\n```cpp\n#include <sycl/sycl.hpp>\n#include <sycl/syclcpp.hpp>\n\nusing namespace sycl;\nusing namespace syclcpp;\n\nint main() {\n    // Create a SYCL queue\n    queue q;\n\n    // Create a device USM allocation for weights\n    usm::device_buffer d_weights(q);\n\n    // Create a host buffer for weights\n    usm::host_buffer h_weights;\n\n    // Copy host buffer to device USM allocation\n    q.submit([&](handler &h) {\n        auto weights = h.template get_access<access::mode::read_write>(d_weights);\n        h.copy_to_host(h_weights);\n    });\n\n    // Create a compute kernel to process the weights\n    auto process_weights = hsm::kernel<process_weights>(q);\n\n    // Submit the compute kernel to the queue\n    q.submit([&](handler &h) {\n        auto weights = h.template get_access<access::mode::read_write>(d_weights);\n        h.submit([&](handler &h) {\n            h.parallel_for<class process_weights>(weights, process_weights);\n        });\n    });\n\n    // Wait for the compute kernel to complete\n    q.wait();\n\n    return 0;\n}\n```\n\n### Explanation:\n1. **SYCL Queue**: `queue q;` creates a SYCL queue where the operations will be executed.\n2. **Device USM Allocation**: `usm::device_buffer d_weights(q);` creates a device USM allocation for the weights.\n3. **Host Buffer**: `usm::host_buffer h_weights;` creates a host buffer for the weights.\n4. **Copy to Device**: `q.submit([&](handler &h) { auto weights = h.template get_access<access::mode::read_write>(d_weights); h.copy_to_host(h_weights); });` copies the host buffer to the device USM allocation.\n5. **Compute Kernel**: `auto process_weights = hsm::kernel<process_weights>(q);` creates a compute kernel to process the weights.\n6. **Submit Compute Kernel**: `q.submit([&](handler &h) { auto weights = h.template get_access<access::mode::read_write>(d_weights); h.submit([&](handler &h) { h.parallel",
+    "score": 0.0,
+    "metadata": {
+      "has_depends_on": false,
+      "has_event_capture": false,
+      "has_forbidden_wait": true,
+      "passed_invariants": false
+    },
+    "latency_ms": 26816.6,
+    "error": null
+  }
+]

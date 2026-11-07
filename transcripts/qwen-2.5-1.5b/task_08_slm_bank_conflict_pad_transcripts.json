@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int` that calculates the row stride in elements for allocating 2D tile arrays in Intel Xe Shared Local Memory (SLM). If tile_width shares a common factor with bank_count (i.e. gcd > 1), add minimal 1-element padding to guarantee gcd(stride, bank_count) == 1 and avoid bank conflict serialization.",
+    "output": "```python\nimport math\n\ndef calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int:\n    \"\"\"\n    Calculate the row stride for 2D tile arrays in Intel Xe SLM, ensuring gcd(stride, bank_count) == 1.\n    If tile_width shares a common factor with bank_count, add minimal 1-element padding.\n    \"\"\"\n    # Calculate gcd\n    gcd = math.gcd(tile_width, bank_count)\n    \n    # Calculate padding needed to avoid bank conflict\n    padding = bank_count // gcd\n    \n    # Calculate final stride\n    final_stride = tile_width + padding\n    \n    return final_stride\n\n# Example usage\nprint(calculate_padded_slm_stride(10))  # Example with tile_width = 10\nprint(calculate_padded_slm_stride(10, 12))  # Example with tile_width = 10 and bank_count = 12\n``` \n\nThis Python code snippet defines a function `calculate_padded_slm_stride` that calculates the row stride for 2D tile arrays in Intel Xe SLM, ensuring that the gcd of the stride and bank_count is 1, and adding minimal padding to avoid bank conflict. The `math.gcd` function is used to calculate the greatest common divisor, and the padding is calculated based on the gcd. The example usage demonstrates how to call the function with different parameters.",
+    "score": 0.0,
+    "metadata": {
+      "error": "Failed for width=15: got 31, expected 15",
+      "passed_invariants": false
+    },
+    "latency_ms": 10957.11,
+    "error": null
+  }
+]

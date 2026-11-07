@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width, element_size_bytes, alignment_bytes=64):\n    \"\"\"\n    Calculate the row pitch for a 2D matrix tile in bytes, ensuring it is aligned upwards to the hardware cache boundary (default 64 bytes).\n\n    Parameters:\n    width (int): The width of the 2D matrix tile.\n    element_size_bytes (int): The size of each element in bytes.\n    alignment_bytes (int, optional): The alignment boundary in bytes. Defaults to 64 bytes.\n\n    Returns:\n    int: The calculated row pitch in bytes.\n    \"\"\"\n    # Calculate the row pitch\n    row_pitch = (width * element_size_bytes) + (alignment_bytes - (width * element_size_bytes) % alignment_bytes)\n    return row_pitch\n\n# Example usage\nprint(calculate_xmx_pitch(10, 4))  # Example with a 10x4 matrix tile, 4 bytes per element\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Failed on width=128: got 576, expected 512",
+      "passed_invariants": false
+    },
+    "latency_ms": 7092.97,
+    "error": null
+  }
+]

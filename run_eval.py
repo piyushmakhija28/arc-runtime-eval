@@ -53,7 +53,8 @@ def run_evaluation(
     total_successes = 0
     all_tasks_consistent_successes = 0
 
-    transcripts_dir = config.transcripts_dir / model_id.replace("/", "_")
+    sanitized_model_id = Path(model_id).name if "/" in model_id or "\\" in model_id else model_id
+    transcripts_dir = config.transcripts_dir / sanitized_model_id
     transcripts_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info(f"Starting benchmark run for model: {model_id} (Provider: {provider_type})")
@@ -134,7 +135,8 @@ def run_evaluation(
     )
 
     config.results_dir.mkdir(parents=True, exist_ok=True)
-    result_file = config.results_dir / f"benchmark_{model_id.replace('/', '_')}.json"
+    sanitized_model_id = Path(model_id).name if "/" in model_id or "\\" in model_id else model_id
+    result_file = config.results_dir / f"benchmark_{sanitized_model_id}.json"
     result_file.write_text(benchmark.model_dump_json(indent=2), encoding="utf-8")
     return benchmark
 
@@ -157,7 +159,7 @@ def display_summary_table(benchmarks: List[OverallModelBenchmark]) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run arc-runtime-eval benchmark harness.")
-    parser.add_argument("--provider", default="oracle", choices=["oracle", "mocked", "openai", "anthropic", "gemini"])
+    parser.add_argument("--provider", default="oracle", choices=["oracle", "mocked", "openai", "anthropic", "gemini", "local_openvino"])
     parser.add_argument("--model", default="oracle-ground-truth", help="Target model identifier")
     parser.add_argument("--trials", type=int, default=3, help="Number of trials per task")
     parser.add_argument("--temperature", type=float, default=0.0, help="Sampling temperature")

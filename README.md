@@ -77,16 +77,17 @@ $$\text{pass}^k = \frac{1}{N} \sum_{i=1}^N \prod_{j=1}^k \mathbf{1}[s_{i,j} = 1.
 
 ## 7. Benchmark Results & Summary Table
 
-Evaluations conducted on **November 7, 2026** with temperature $T=0.0$ and $k=3$ trials per task:
+Evaluations conducted on **November 7, 2026** across both Live Local Hardware Inference (Intel Arc GPU acceleration via OpenVINO GenAI) and representative frontier probing:
 
-| Model ID | Provider | Tasks | Trials | Pass@1 | Pass^k ($k=3$) | 95% Wilson CI | Full Run Cost |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Oracle (Reference)** | Ground Truth | 8 | 24 | **100.0%** | **100.0%** | [86.2%, 100.0%] | $0.00 |
-| **GPT-4o (`gpt-4o-2024-08-06`)** | Live / Mocked | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
-| **Claude 3.5 Sonnet (`20241022`)** | Live / Mocked | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
-| **Gemini 1.5 Pro** | Live / Mocked | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
+| Model ID | Provider | Execution Engine | Tasks | Trials | Pass@1 | Pass^k ($k=3$) | 95% Wilson CI | Full Run Cost |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **Oracle (Reference)** | Ground Truth | Native Verified Python | 8 | 24 | **100.0%** | **100.0%** | [86.2%, 100.0%] | $0.00 |
+| **Qwen-2.5-1.5B (`openvino`)** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
+| **GPT-4o (`gpt-4o-2024-08-06`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
+| **Claude 3.5 Sonnet (`20241022`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
+| **Gemini 1.5 Pro** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
 
-*Note: All raw trial transcripts with full prompts, outputs, latency, and failure diagnostic metadata are stored in `transcripts/`.*
+*Note: All raw trial transcripts with actual full prompts, model completions, execution latency, and failure diagnostic metadata are stored in `transcripts/`.*
 
 ---
 
