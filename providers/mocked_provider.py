@@ -1,9 +1,5 @@
 """Deterministic replay provider injecting realistic frontier model failure traces."""
 
-from providers.base import ModelProvider
-
-"""Deterministic replay provider injecting realistic frontier model failure traces."""
-
 from pathlib import Path
 from typing import Dict
 from providers.base import ModelProvider

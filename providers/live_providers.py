@@ -33,8 +33,10 @@ class LiveOpenAIProvider(ModelProvider):
                     raise ProviderRateLimitError("OpenAI Rate Limit Exceeded")
                 res.raise_for_status()
                 return res.json()["choices"][0]["message"]["content"]
+        except ProviderRateLimitError:
+            raise
         except Exception as e:
-            raise TaskExecutionError(f"OpenAI call failed: {e}")
+            raise TaskExecutionError(f"OpenAI call failed: {e}") from e
 
 class LiveAnthropicProvider(ModelProvider):
     """Executes calls against Anthropic API."""
@@ -65,8 +67,10 @@ class LiveAnthropicProvider(ModelProvider):
                     raise ProviderRateLimitError("Anthropic Rate Limit Exceeded")
                 res.raise_for_status()
                 return res.json()["content"][0]["text"]
+        except ProviderRateLimitError:
+            raise
         except Exception as e:
-            raise TaskExecutionError(f"Anthropic call failed: {e}")
+            raise TaskExecutionError(f"Anthropic call failed: {e}") from e
 
 class LiveGeminiProvider(ModelProvider):
     """Executes calls against Google Gemini API."""
@@ -91,5 +95,7 @@ class LiveGeminiProvider(ModelProvider):
                     raise ProviderRateLimitError("Gemini Rate Limit Exceeded")
                 res.raise_for_status()
                 return res.json()["candidates"][0]["content"]["parts"][0]["text"]
+        except ProviderRateLimitError:
+            raise
         except Exception as e:
-            raise TaskExecutionError(f"Gemini call failed: {e}")
+            raise TaskExecutionError(f"Gemini call failed: {e}") from e
