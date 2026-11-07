@@ -1,0 +1,17 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Provide a SYCL C++ snippet demonstrating dual queue asynchronous execution: `copy_queue` performs an asynchronous memory copy from host to device, and `compute_queue` waits for the copy completion using an event barrier without blocking the host CPU thread.",
+    "output": "",
+    "score": 0.0,
+    "metadata": {
+      "has_copy_q": false,
+      "has_compute_q": false,
+      "has_event_transfer": false,
+      "has_blocking_wait": false,
+      "passed_invariants": false
+    },
+    "latency_ms": 0.77,
+    "error": "Exception from C:\\Jenkins\\workspace\\private-ci\\ie\\build-windows-vs2022\\b\\repos\\openvino.genai\\src\\cpp\\src\\utils.cpp:500:\nCould not find a model in the directory '\"C:/Users/techd/Documents/workspace-spring-tool-suite-4-4.27.0-new/intel-arc-models-runner/models/tinyllama-openvino-new\"'\n"
+  }
+]

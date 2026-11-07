@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "",
+    "score": 0.0,
+    "metadata": {
+      "error": "Function dequantize_int4_symmetric not found",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.77,
+    "error": "Exception from C:\\Jenkins\\workspace\\private-ci\\ie\\build-windows-vs2022\\b\\repos\\openvino.genai\\src\\cpp\\src\\utils.cpp:500:\nCould not find a model in the directory '\"C:/Users/techd/Documents/workspace-spring-tool-suite-4-4.27.0-new/intel-arc-models-runner/models/tinyllama-openvino-new\"'\n"
+  }
+]

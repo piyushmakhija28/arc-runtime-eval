@@ -82,7 +82,8 @@ Evaluations conducted on **November 7, 2026** across both Live Local Hardware In
 | Model ID | Provider | Execution Engine | Tasks | Trials | Pass@1 | Pass^k ($k=3$) | 95% Wilson CI | Full Run Cost |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Oracle (Reference)** | Ground Truth | Native Verified Python | 8 | 24 | **100.0%** | **100.0%** | [86.2%, 100.0%] | $0.00 |
-| **Qwen-2.5-1.5B (`openvino`)** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
+| **Qwen-2.5-1.5B** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
+| **Qwen-0.5B-NPU** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
 | **GPT-4o (`gpt-4o-2024-08-06`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
 | **Claude 3.5 Sonnet (`20241022`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
 | **Gemini 1.5 Pro** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |

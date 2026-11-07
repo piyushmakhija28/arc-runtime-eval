@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int` that calculates the row stride in elements for allocating 2D tile arrays in Intel Xe Shared Local Memory (SLM). If tile_width shares a common factor with bank_count (i.e. gcd > 1), add minimal 1-element padding to guarantee gcd(stride, bank_count) == 1 and avoid bank conflict serialization.",
+    "output": "",
+    "score": 0.0,
+    "metadata": {
+      "error": "Function calculate_padded_slm_stride not found",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.78,
+    "error": "Exception from C:\\Jenkins\\workspace\\private-ci\\ie\\build-windows-vs2022\\b\\repos\\openvino.genai\\src\\cpp\\src\\utils.cpp:500:\nCould not find a model in the directory '\"C:/Users/techd/Documents/workspace-spring-tool-suite-4-4.27.0-new/intel-arc-models-runner/models/tinyllama-openvino-new\"'\n"
+  }
+]

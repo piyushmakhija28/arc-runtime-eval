@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int` that maps a logical token, head, and channel index to its flat physical memory byte/element offset within a paged KV cache table.",
+    "output": "",
+    "score": 0.0,
+    "metadata": {
+      "error": "Function calculate_kv_offset not found",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.85,
+    "error": "Exception from C:\\Jenkins\\workspace\\private-ci\\ie\\build-windows-vs2022\\b\\repos\\openvino.genai\\src\\cpp\\src\\utils.cpp:500:\nCould not find a model in the directory '\"C:/Users/techd/Documents/workspace-spring-tool-suite-4-4.27.0-new/intel-arc-models-runner/models/tinyllama-openvino-new\"'\n"
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
+    "output": "",
+    "score": 0.0,
+    "metadata": {
+      "has_depends_on": false,
+      "has_event_capture": false,
+      "has_forbidden_wait": false,
+      "passed_invariants": false
+    },
+    "latency_ms": 827.8,
+    "error": "Exception from C:\\Jenkins\\workspace\\private-ci\\ie\\build-windows-vs2022\\b\\repos\\openvino.genai\\src\\cpp\\src\\utils.cpp:500:\nCould not find a model in the directory '\"C:/Users/techd/Documents/workspace-spring-tool-suite-4-4.27.0-new/intel-arc-models-runner/models/tinyllama-openvino-new\"'\n"
+  }
+]

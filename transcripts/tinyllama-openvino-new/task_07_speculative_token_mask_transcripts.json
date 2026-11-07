@@ -1,0 +1,14 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `compute_acceptance_mask(target_probs: np.ndarray, thresholds: np.ndarray) -> np.ndarray` that evaluates speculative draft tokens in parallel. A token is accepted if target_probs >= thresholds, BUT once any draft token is rejected, ALL subsequent tokens in the sequence must also be rejected (prefix validity condition). Return an int32 binary mask.",
+    "output": "",
+    "score": 0.0,
+    "metadata": {
+      "error": "Function compute_acceptance_mask not found",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.0,
+    "error": "Exception from C:\\Jenkins\\workspace\\private-ci\\ie\\build-windows-vs2022\\b\\repos\\openvino.genai\\src\\cpp\\src\\utils.cpp:500:\nCould not find a model in the directory '\"C:/Users/techd/Documents/workspace-spring-tool-suite-4-4.27.0-new/intel-arc-models-runner/models/tinyllama-openvino-new\"'\n"
+  }
+]
