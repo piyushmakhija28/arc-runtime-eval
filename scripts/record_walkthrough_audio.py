@@ -6,12 +6,15 @@ with dynamic broadcast subtitles and executive speaker bubble.
 """
 
 import os
+import sys
 from pathlib import Path
 import subprocess
 import time
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 BUILD_DIR = ROOT_DIR / "build_video"
 BUILD_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -131,9 +134,14 @@ def record_scene_audio(scene_idx: int, scene_data: dict) -> Path:
 
 def main():
     """Main interactive audio recording and video assembly pipeline."""
-    from scripts.generate_walkthrough_video import (
-        render_base_slide, draw_broadcast_subtitles, get_audio_duration
-    )
+    try:
+        from scripts.generate_walkthrough_video import (
+            render_base_slide, draw_broadcast_subtitles, get_audio_duration
+        )
+    except ImportError:
+        from generate_walkthrough_video import (
+            render_base_slide, draw_broadcast_subtitles, get_audio_duration
+        )
     
     print("\n" + "#"*80)
     print("   🎙️  PIYUSH MAKHIJA - LIVE VOICE WALKTHROUGH RECORDER")
