@@ -27,7 +27,12 @@ Frontier AI models (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro) convincingly gene
 ---
 
 ## 3. Domain and Expertise
-This evaluation is grounded in production systems engineering and local GPU acceleration, building upon direct experience developing high-performance hardware runners (e.g. [`intel-arc-models-runner`](https://github.com/techdeveloper-org/intel-arc-models-runner)). It evaluates the precise interface between deep learning frameworks (PyTorch, IPEX, OpenVINO) and low-level hardware execution layers (Intel OneAPI, SYCL, XMX Matrix Engines, and Unified Shared Memory).
+This evaluation is grounded in production systems engineering and local GPU acceleration, building upon direct experience developing high-performance hardware runners and upstream accelerator runtimes:
+* **Production Model Engine:** [`techdeveloper-org/intel-arc-models-runner`](https://github.com/techdeveloper-org/intel-arc-models-runner) (`main` branch) — native Intel Arc execution engine featuring FlashStream zero-OOM layer streaming and Ollama OCI transpile bridges.
+* **Upstream OpenVINO Fork:** [`techdeveloper-org/openvino`](https://github.com/techdeveloper-org/openvino) (Working branch: `piyushmakhijabranch`) — low-level compiler diagnostics, XML deserializer port validation, and const shape checking.
+* **Upstream OpenVINO GenAI Fork:** [`techdeveloper-org/openvino.genai`](https://github.com/techdeveloper-org/openvino.genai) (Working branch: `piyushmakhijabranch`) — LLM pipeline DAG preflight verification and stateful speculative decoding sampling.
+
+It evaluates the precise interface between deep learning frameworks (PyTorch, IPEX, OpenVINO) and low-level hardware execution layers (Intel OneAPI, SYCL, XMX Matrix Engines, and Unified Shared Memory).
 
 ---
 
@@ -164,5 +169,9 @@ python run_eval.py --provider openai --model gpt-4o --trials 3
 ---
 
 ## 10. Prior Work & AI Tool Disclosure
-- **Prior Work:** Grounded in architecture concepts from [`intel-arc-models-runner`](https://github.com/techdeveloper-org/intel-arc-models-runner). All benchmark tasks, reference implementations, and test suites were designed and verified specifically for this hackathon.
+- **Prior Work & Provenance:** This benchmark is directly grounded in our real-world accelerated systems engineering and accelerator runtime projects:
+  - **Local Model Runner:** [`techdeveloper-org/intel-arc-models-runner`](https://github.com/techdeveloper-org/intel-arc-models-runner) (`main` branch) — High-throughput Intel Arc GPU/NPU daemon, FlashStream zero-RAM layer streamer, and GGUF OCI bridge.
+  - **OpenVINO Upstream Fork:** [`techdeveloper-org/openvino`](https://github.com/techdeveloper-org/openvino) (Branch: [`piyushmakhijabranch`](https://github.com/techdeveloper-org/openvino/tree/piyushmakhijabranch)) — Featuring custom XML deserializer port validation and Constant shape mismatch diagnostics (`fix/const-shape-mismatch-diagnostics`).
+  - **OpenVINO GenAI Upstream Fork:** [`techdeveloper-org/openvino.genai`](https://github.com/techdeveloper-org/openvino.genai) (Branch: [`piyushmakhijabranch`](https://github.com/techdeveloper-org/openvino.genai/tree/piyushmakhijabranch)) — Featuring LLM pipeline preflight DAG validation and stateful speculative decoding stochastic sampling (`fix/llm-pipeline-dag-preflight-validation`).
+  - *Fresh Work for Hackathon:* All 8 benchmark task specifications, reference solvers, AST invariant graders, adversarial mutation tests, and empirical evaluation suites in this repository were authored, tested, and calibrated specifically for the micro1 Eval Hackathon.
 - **AI Tool Usage:** AI assistance was utilized for boilerplate generation and test scaffolding. All task invariants, mathematical formulas, and code verifiers were manually reviewed, tested, and calibrated.
