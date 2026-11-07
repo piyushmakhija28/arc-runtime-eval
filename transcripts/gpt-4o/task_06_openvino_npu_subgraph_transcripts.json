@@ -1,0 +1,38 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+    "output": "```python\ndef validate_npu_compatibility(subgraph_spec: dict) -> bool:\n    # Ignores dynamic rank check, allowing invalid runtime fallback\n    return True\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Accepted unsupported dynamic ranks for NPU",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.46,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+    "output": "```python\ndef validate_npu_compatibility(subgraph_spec: dict) -> bool:\n    # Ignores dynamic rank check, allowing invalid runtime fallback\n    return True\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Accepted unsupported dynamic ranks for NPU",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.11,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+    "output": "```python\ndef validate_npu_compatibility(subgraph_spec: dict) -> bool:\n    # Ignores dynamic rank check, allowing invalid runtime fallback\n    return True\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Accepted unsupported dynamic ranks for NPU",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.11,
+    "error": null
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "id": "task_07_speculative_token_mask",
+  "title": "Speculative Decoding Vectorized Draft Token Verification Mask",
+  "domain": "Accelerated AI Hardware Runtimes",
+  "complexity": "HARDWARE_EXPERT",
+  "prompt": "Implement a Python function `compute_acceptance_mask(target_probs: np.ndarray, thresholds: np.ndarray) -> np.ndarray` that evaluates speculative draft tokens in parallel. A token is accepted if target_probs >= thresholds, BUT once any draft token is rejected, ALL subsequent tokens in the sequence must also be rejected (prefix validity condition). Return an int32 binary mask.",
+  "target_invariant": "Mask must represent the cumulative product (prefix-scan) of individual acceptance indicators: mask = cumprod(probs >= thresholds).",
+  "timeout_seconds": 30.0
+}

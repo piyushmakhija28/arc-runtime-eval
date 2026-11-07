@@ -1,0 +1,9 @@
+{
+  "id": "task_01_sycl_usm_barrier",
+  "title": "SYCL USM Asynchronous Barrier Event Dependency",
+  "domain": "Accelerated AI Hardware Runtimes",
+  "complexity": "ADVANCED",
+  "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
+  "target_invariant": "Must capture event from q.memcpy and declare h.depends_on(event) in kernel submission without calling host-stalling q.wait().",
+  "timeout_seconds": 30.0
+}

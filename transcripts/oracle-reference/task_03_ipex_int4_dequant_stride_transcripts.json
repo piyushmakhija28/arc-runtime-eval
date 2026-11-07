@@ -1,0 +1,35 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "```python\nimport numpy as np\n\ndef dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray:\n    \"\"\"Unpacks INT4 symmetric weights (low nibble first, offset 8) with per-channel scaling.\"\"\"\n    total_weights = len(packed_weights) * 2\n    unpacked = np.empty(total_weights, dtype=np.float32)\n\n    for i, byte_val in enumerate(packed_weights):\n        low_nibble = int(byte_val & 0x0F)\n        high_nibble = int((byte_val >> 4) & 0x0F)\n        \n        idx = i * 2\n        unpacked[idx] = float(low_nibble - 8) * float(scales[idx])\n        unpacked[idx + 1] = float(high_nibble - 8) * float(scales[idx + 1])\n\n    return unpacked\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.75,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "```python\nimport numpy as np\n\ndef dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray:\n    \"\"\"Unpacks INT4 symmetric weights (low nibble first, offset 8) with per-channel scaling.\"\"\"\n    total_weights = len(packed_weights) * 2\n    unpacked = np.empty(total_weights, dtype=np.float32)\n\n    for i, byte_val in enumerate(packed_weights):\n        low_nibble = int(byte_val & 0x0F)\n        high_nibble = int((byte_val >> 4) & 0x0F)\n        \n        idx = i * 2\n        unpacked[idx] = float(low_nibble - 8) * float(scales[idx])\n        unpacked[idx + 1] = float(high_nibble - 8) * float(scales[idx + 1])\n\n    return unpacked\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.42,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "```python\nimport numpy as np\n\ndef dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray:\n    \"\"\"Unpacks INT4 symmetric weights (low nibble first, offset 8) with per-channel scaling.\"\"\"\n    total_weights = len(packed_weights) * 2\n    unpacked = np.empty(total_weights, dtype=np.float32)\n\n    for i, byte_val in enumerate(packed_weights):\n        low_nibble = int(byte_val & 0x0F)\n        high_nibble = int((byte_val >> 4) & 0x0F)\n        \n        idx = i * 2\n        unpacked[idx] = float(low_nibble - 8) * float(scales[idx])\n        unpacked[idx + 1] = float(high_nibble - 8) * float(scales[idx + 1])\n\n    return unpacked\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.45,
+    "error": null
+  }
+]

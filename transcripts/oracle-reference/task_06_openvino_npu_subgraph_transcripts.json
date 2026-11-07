@@ -1,0 +1,35 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+    "output": "```python\ndef validate_npu_compatibility(subgraph_spec: dict) -> bool:\n    \"\"\"Validates if OpenVINO subgraph meets strict static constraints for Intel NPU.\"\"\"\n    if subgraph_spec.get(\"dynamic_ranks\", False):\n        return False\n\n    supported_npu_ops = {\n        \"MatMul\", \"Add\", \"Subtract\", \"Multiply\", \"Relu\", \"Gelu\", \n        \"LayerNorm\", \"Softmax\", \"Reshape\", \"Transpose\", \"Convolution\"\n    }\n\n    nodes = subgraph_spec.get(\"nodes\", [])\n    for op in nodes:\n        if op not in supported_npu_ops:\n            return False\n\n    return True\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.43,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+    "output": "```python\ndef validate_npu_compatibility(subgraph_spec: dict) -> bool:\n    \"\"\"Validates if OpenVINO subgraph meets strict static constraints for Intel NPU.\"\"\"\n    if subgraph_spec.get(\"dynamic_ranks\", False):\n        return False\n\n    supported_npu_ops = {\n        \"MatMul\", \"Add\", \"Subtract\", \"Multiply\", \"Relu\", \"Gelu\", \n        \"LayerNorm\", \"Softmax\", \"Reshape\", \"Transpose\", \"Convolution\"\n    }\n\n    nodes = subgraph_spec.get(\"nodes\", [])\n    for op in nodes:\n        if op not in supported_npu_ops:\n            return False\n\n    return True\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.37,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+    "output": "```python\ndef validate_npu_compatibility(subgraph_spec: dict) -> bool:\n    \"\"\"Validates if OpenVINO subgraph meets strict static constraints for Intel NPU.\"\"\"\n    if subgraph_spec.get(\"dynamic_ranks\", False):\n        return False\n\n    supported_npu_ops = {\n        \"MatMul\", \"Add\", \"Subtract\", \"Multiply\", \"Relu\", \"Gelu\", \n        \"LayerNorm\", \"Softmax\", \"Reshape\", \"Transpose\", \"Convolution\"\n    }\n\n    nodes = subgraph_spec.get(\"nodes\", [])\n    for op in nodes:\n        if op not in supported_npu_ops:\n            return False\n\n    return True\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.88,
+    "error": null
+  }
+]

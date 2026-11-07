@@ -1,0 +1,35 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int` that calculates the row stride in elements for allocating 2D tile arrays in Intel Xe Shared Local Memory (SLM). If tile_width shares a common factor with bank_count (i.e. gcd > 1), add minimal 1-element padding to guarantee gcd(stride, bank_count) == 1 and avoid bank conflict serialization.",
+    "output": "```python\nimport math\n\ndef calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int:\n    \"\"\"Calculates bank-conflict-free row stride in Intel Xe Shared Local Memory.\"\"\"\n    if math.gcd(tile_width, bank_count) > 1:\n        return tile_width + 1\n    return tile_width\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 2.49,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int` that calculates the row stride in elements for allocating 2D tile arrays in Intel Xe Shared Local Memory (SLM). If tile_width shares a common factor with bank_count (i.e. gcd > 1), add minimal 1-element padding to guarantee gcd(stride, bank_count) == 1 and avoid bank conflict serialization.",
+    "output": "```python\nimport math\n\ndef calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int:\n    \"\"\"Calculates bank-conflict-free row stride in Intel Xe Shared Local Memory.\"\"\"\n    if math.gcd(tile_width, bank_count) > 1:\n        return tile_width + 1\n    return tile_width\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 2.06,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int` that calculates the row stride in elements for allocating 2D tile arrays in Intel Xe Shared Local Memory (SLM). If tile_width shares a common factor with bank_count (i.e. gcd > 1), add minimal 1-element padding to guarantee gcd(stride, bank_count) == 1 and avoid bank conflict serialization.",
+    "output": "```python\nimport math\n\ndef calculate_padded_slm_stride(tile_width: int, bank_count: int = 16) -> int:\n    \"\"\"Calculates bank-conflict-free row stride in Intel Xe Shared Local Memory.\"\"\"\n    if math.gcd(tile_width, bank_count) > 1:\n        return tile_width + 1\n    return tile_width\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 2.0,
+    "error": null
+  }
+]

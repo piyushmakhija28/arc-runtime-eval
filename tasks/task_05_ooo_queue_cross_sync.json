@@ -1,0 +1,9 @@
+{
+  "id": "task_05_ooo_queue_cross_sync",
+  "title": "Out-of-Order Queue Inter-Engine Barrier (Copy to Compute)",
+  "domain": "Accelerated AI Hardware Runtimes",
+  "complexity": "ADVANCED",
+  "prompt": "Provide a SYCL C++ snippet demonstrating dual queue asynchronous execution: `copy_queue` performs an asynchronous memory copy from host to device, and `compute_queue` waits for the copy completion using an event barrier without blocking the host CPU thread.",
+  "target_invariant": "Compute queue submission must declare depends_on(copy_event); neither queue may invoke blocking wait() on host.",
+  "timeout_seconds": 30.0
+}

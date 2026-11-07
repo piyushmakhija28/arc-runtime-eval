@@ -1,0 +1,9 @@
+{
+  "id": "task_03_ipex_int4_dequant_stride",
+  "title": "IPEX INT4 Symmetric Weight Dequantization Unpack",
+  "domain": "Accelerated AI Hardware Runtimes",
+  "complexity": "ADVANCED",
+  "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+  "target_invariant": "Correct nibble order: W0 = byte & 0x0F, W1 = (byte >> 4) & 0x0F, dequant = (W - 8) * scale.",
+  "timeout_seconds": 30.0
+}

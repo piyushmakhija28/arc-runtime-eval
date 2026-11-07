@@ -1,0 +1,35 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    \"\"\"Calculates row pitch aligned to 64-byte hardware cache boundaries.\"\"\"\n    raw_row_bytes = width * element_size_bytes\n    return ((raw_row_bytes + alignment_bytes - 1) // alignment_bytes) * alignment_bytes\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.34,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    \"\"\"Calculates row pitch aligned to 64-byte hardware cache boundaries.\"\"\"\n    raw_row_bytes = width * element_size_bytes\n    return ((raw_row_bytes + alignment_bytes - 1) // alignment_bytes) * alignment_bytes\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 1.41,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    \"\"\"Calculates row pitch aligned to 64-byte hardware cache boundaries.\"\"\"\n    raw_row_bytes = width * element_size_bytes\n    return ((raw_row_bytes + alignment_bytes - 1) // alignment_bytes) * alignment_bytes\n```\n",
+    "score": 1.0,
+    "metadata": {
+      "passed_invariants": true
+    },
+    "latency_ms": 0.88,
+    "error": null
+  }
+]

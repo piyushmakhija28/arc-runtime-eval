@@ -1,0 +1,9 @@
+{
+  "id": "task_04_paged_attention_strides",
+  "title": "Dynamic Paged Attention KV Cache Physical Offset Calculation",
+  "domain": "Accelerated AI Hardware Runtimes",
+  "complexity": "HARDWARE_EXPERT",
+  "prompt": "Implement a Python function `calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int` that maps a logical token, head, and channel index to its flat physical memory byte/element offset within a paged KV cache table.",
+  "target_invariant": "Offset = physical_page * (page_size * num_heads * head_dim) + slot_in_page * (num_heads * head_dim) + head_idx * head_dim + dim_idx.",
+  "timeout_seconds": 30.0
+}

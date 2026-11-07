@@ -1,0 +1,9 @@
+{
+  "id": "task_06_openvino_npu_subgraph",
+  "title": "OpenVINO / NPU Compiler Subgraph Partitioning Invariant",
+  "domain": "Accelerated AI Hardware Runtimes",
+  "complexity": "ADVANCED",
+  "prompt": "Implement a Python function `validate_npu_compatibility(subgraph_spec: dict) -> bool` that verifies whether an OpenVINO computational subgraph can execute natively on Intel NPU without falling back to CPU. The validator must reject subgraphs with dynamic ranks or unsupported ops like 'NonZero' or 'Unique'.",
+  "target_invariant": "Returns True only if dynamic_ranks is False and all nodes exist within the statically-supported NPU opset.",
+  "timeout_seconds": 30.0
+}

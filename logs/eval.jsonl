@@ -1,0 +1,18 @@
+{"timestamp": "2026-11-07 07:15:47,225", "level": "INFO", "logger": "HarnessRunner", "message": "Starting benchmark run for model: oracle-reference (Provider: oracle)"}
+{"timestamp": "2026-11-07 07:15:47,230", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_01_sycl_usm_barrier: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,239", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_02_xmx_2d_block_pitch: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,249", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_03_ipex_int4_dequant_stride: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,257", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_04_paged_attention_strides: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,263", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_05_ooo_queue_cross_sync: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,270", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_06_openvino_npu_subgraph: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,278", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_07_speculative_token_mask: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:47,287", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_08_slm_bank_conflict_pad: Pass@1=100.0%, Pass^k=100.0%, CI=[0.4385, 1.0]"}
+{"timestamp": "2026-11-07 07:15:54,374", "level": "INFO", "logger": "HarnessRunner", "message": "Starting benchmark run for model: gpt-4o (Provider: mocked)"}
+{"timestamp": "2026-11-07 07:15:54,377", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_01_sycl_usm_barrier: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,382", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_02_xmx_2d_block_pitch: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,429", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_03_ipex_int4_dequant_stride: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,436", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_04_paged_attention_strides: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,442", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_05_ooo_queue_cross_sync: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,447", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_06_openvino_npu_subgraph: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,454", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_07_speculative_token_mask: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}
+{"timestamp": "2026-11-07 07:15:54,462", "level": "INFO", "logger": "HarnessRunner", "message": "Task task_08_slm_bank_conflict_pad: Pass@1=0.0%, Pass^k=0.0%, CI=[0.0, 0.5615]"}

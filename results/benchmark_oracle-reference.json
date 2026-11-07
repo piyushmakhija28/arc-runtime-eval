@@ -1,0 +1,119 @@
+{
+  "model_id": "oracle-reference",
+  "total_tasks": 8,
+  "total_trials": 24,
+  "overall_pass_rate": 1.0,
+  "consistency_pass_pow_k": 1.0,
+  "overall_wilson_ci": {
+    "lower_bound": 0.862,
+    "upper_bound": 1.0,
+    "confidence_level": 0.95
+  },
+  "approximate_cost_usd": 0.0,
+  "task_metrics": [
+    {
+      "task_id": "task_01_sycl_usm_barrier",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 0.88
+    },
+    {
+      "task_id": "task_02_xmx_2d_block_pitch",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 1.21
+    },
+    {
+      "task_id": "task_03_ipex_int4_dequant_stride",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 1.54
+    },
+    {
+      "task_id": "task_04_paged_attention_strides",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 1.48
+    },
+    {
+      "task_id": "task_05_ooo_queue_cross_sync",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 1.72
+    },
+    {
+      "task_id": "task_06_openvino_npu_subgraph",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 1.56
+    },
+    {
+      "task_id": "task_07_speculative_token_mask",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 1.77
+    },
+    {
+      "task_id": "task_08_slm_bank_conflict_pad",
+      "model_id": "oracle-reference",
+      "trials_count": 3,
+      "pass_at_1": 1.0,
+      "pass_pow_k": 1.0,
+      "wilson_ci": {
+        "lower_bound": 0.4385,
+        "upper_bound": 1.0,
+        "confidence_level": 0.95
+      },
+      "mean_latency_ms": 2.19
+    }
+  ]
+}
