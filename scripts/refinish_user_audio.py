@@ -26,7 +26,7 @@ OUTPUT_VIDEO = ROOT_DIR / "arc_runtime_eval_walkthrough.mp4"
 OUTPUT_SRT = ROOT_DIR / "arc_runtime_eval_captions.srt"
 AVATAR_PATH = Path(os.environ.get("TEMP", ".")) / "piyush_avatar.png"
 
-WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 3840, 2160
 WIDTH_4K, HEIGHT_4K = 3840, 2160
 
 SCENES_DATA = [
@@ -274,11 +274,11 @@ def render_base_slide_retina(scene_idx: int) -> Image.Image:
         draw.text((200, 504), "100% Failure Across All Frontier LLMs", fill="#FFFFFF", font=get_font(46, bold=True))
         draw_card_4k(draw, 190, 600, 1810, 880, bg="#0F172A", border="#334155", border_width=2, radius=16)
         draw.text((230, 630), "Model Output (GPT-4o & Claude 3.5 Sonnet):", fill="#EF4444", font=get_font(28, bold=True))
-        code_llm_1 = "def calculate_xmx_pitch(width, elem_size, align=64):\n    # Standard LLM Hallucination: Naive row pitch\n    return width * elem_size  # Returns 508 bytes for 127 ints!"
+        code_llm_1 = "def calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    # Standard LLM Hallucination: Naive row pitch without cacheline alignment\n    return width * element_size_bytes  # Returns 508 bytes for 127 ints!"
         draw.text((230, 690), code_llm_1, fill="#FCA5A5", font=get_font(28))
         draw_card_4k(draw, 190, 920, 1810, 1200, bg="#0F172A", border="#10B981", border_width=2, radius=16)
-        draw.text((230, 950), "Hardware Reference Ground Truth:", fill="#10B981", font=get_font(28, bold=True))
-        code_ref_1 = "def calculate_xmx_pitch(width, elem_size, align=64):\n    row_bytes = width * elem_size\n    return ((row_bytes + align - 1) // align) * align  # 512 bytes!"
+        draw.text((230, 950), "Hardware Reference Ground Truth (reference/solve_task_02.py):", fill="#10B981", font=get_font(28, bold=True))
+        code_ref_1 = "def calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    raw_row_bytes = width * element_size_bytes\n    return ((raw_row_bytes + alignment_bytes - 1) // alignment_bytes) * alignment_bytes"
         draw.text((230, 1010), code_ref_1, fill="#86EFAC", font=get_font(28))
         draw.text((200, 1240), "Architectural Root Cause:", fill="#60A5FA", font=get_font(30, bold=True))
         draw.text((200, 1296), "Intel Arc Xe Matrix Arrays load 2D sub-tiles via 64-byte aligned DMA pitch strides.\nNaive 508-byte strides trigger hardware alignment traps.", fill="#CBD5E1", font=get_font(28))
@@ -377,19 +377,19 @@ def render_base_slide_retina(scene_idx: int) -> Image.Image:
 
     draw_presenter_bubble_4k(img_4k)
     
-    # Downscale 4K to 1080p using high-quality Lanczos interpolation
-    return img_4k.resize((WIDTH, HEIGHT), Image.Resampling.LANCZOS)
+    # Return pure native 4K Ultra HD slide
+    return img_4k
 
 def draw_broadcast_subtitles(img: Image.Image, text: str):
-    """Renders authentic broadcast-grade centered closed captions with dynamic translucent backdrop."""
-    font = get_font(23, bold=True)
+    """Renders authentic broadcast-grade centered closed captions at native 4K resolution."""
+    font = get_font(44, bold=True)
     
     words = text.split()
     lines = []
     curr = []
     for w in words:
         test_line = " ".join(curr + [w])
-        if len(test_line) > 64:
+        if len(test_line) > 70:
             lines.append(" ".join(curr))
             curr = [w]
         else:
@@ -411,16 +411,16 @@ def draw_broadcast_subtitles(img: Image.Image, text: str):
         line_metrics.append((w, h))
     
     max_w = max(w for w, h in line_metrics)
-    line_spacing = 36
+    line_spacing = 68
     total_text_h = len(lines) * line_spacing
     
-    pad_x = 28
-    pad_y = 12
+    pad_x = 56
+    pad_y = 24
     pill_w = max_w + (pad_x * 2)
     pill_h = total_text_h + (pad_y * 2)
     
     pill_x1 = (WIDTH - pill_w) // 2
-    pill_y2 = HEIGHT - 45
+    pill_y2 = HEIGHT - 80
     pill_y1 = pill_y2 - pill_h
     
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
@@ -428,10 +428,10 @@ def draw_broadcast_subtitles(img: Image.Image, text: str):
     
     overlay_draw.rounded_rectangle(
         [pill_x1, pill_y1, pill_x1 + pill_w, pill_y2],
-        radius=14,
-        fill=(5, 11, 22, 225),
-        outline=(56, 189, 248, 120),
-        width=1
+        radius=24,
+        fill=(5, 11, 22, 230),
+        outline=(56, 189, 248, 140),
+        width=2
     )
     
     rgba_img = img.convert("RGBA")
@@ -441,9 +441,9 @@ def draw_broadcast_subtitles(img: Image.Image, text: str):
     for i, line in enumerate(lines):
         line_w = line_metrics[i][0]
         line_x = (WIDTH - line_w) // 2
-        line_y = pill_y1 + pad_y + (i * line_spacing) + 2
+        line_y = pill_y1 + pad_y + (i * line_spacing) + 4
         
-        text_draw.text((line_x + 1, line_y + 1), line, fill=(0, 0, 0, 200), font=font)
+        text_draw.text((line_x + 2, line_y + 2), line, fill=(0, 0, 0, 220), font=font)
         text_draw.text((line_x, line_y), line, fill="#FFFFFF", font=font)
         
     img.paste(composited.convert("RGB"))
@@ -581,7 +581,7 @@ def main():
             frame_path = BUILD_DIR / f"frame_scene_{scene_idx}_sent_{s_idx}.png"
             frame_img.save(frame_path)
             
-            # Encode sentence video clip at 25 fps
+            # Encode sentence video clip at native 4K 25 fps
             sent_v = BUILD_DIR / f"sent_v_{scene_idx}_{s_idx}.mp4"
             cmd_v = [
                 "ffmpeg", "-y",
@@ -589,7 +589,7 @@ def main():
                 "-t", f"{s_dur:.3f}",
                 "-framerate", "25",
                 "-i", str(frame_path),
-                "-c:v", "libx264", "-preset", "medium", "-crf", "15", "-pix_fmt", "yuv420p",
+                "-c:v", "libx264", "-preset", "fast", "-crf", "14", "-pix_fmt", "yuv420p",
                 str(sent_v)
             ]
             subprocess.run(cmd_v, capture_output=True, check=True)
