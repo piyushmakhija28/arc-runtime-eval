@@ -34,6 +34,18 @@ This evaluation is grounded in production systems engineering and local GPU acce
 
 It evaluates the precise interface between deep learning frameworks (PyTorch, IPEX, OpenVINO) and low-level hardware execution layers (Intel OneAPI, SYCL, XMX Matrix Engines, and Unified Shared Memory).
 
+### 3.1 Physical Silicon Testbed Specification
+All local hardware evaluations, empirical silicon telemetry, and FlashStream layer-streaming measurements are physically executed and verified on the following host accelerator testbed:
+
+| Component | Hardware Specification & Telemetry | Architectural Role in Benchmark |
+|:---|:---|:---|
+| **Host Processor (CPU)** | **Intel(R) Core(TM) Ultra 5 125H** (Meteor Lake)<br>• 14 Physical Cores (4 P-cores + 8 E-cores + 2 LP E-cores)<br>• 18 Logical Processors / Hardware Threads | Orchestrates benchmark harness, out-of-order queue dispatch, and deterministic AST verification. |
+| **GPU Accelerator (iGPU)** | **Intel(R) Arc(TM) Graphics (Xe-LPG Architecture)**<br>• 8 Xe-cores (128 Vector Engines)<br>• Native Intel Xe Matrix Extensions (XMX)<br>• Driver Version: `32.0.101.5542` | Primary physical target for SYCL USM non-blocking barriers, 64-byte 2D systolic cache pitch alignments, and INT4 dequantization. |
+| **Dedicated NPU Engine** | **Intel(R) AI Boost NPU**<br>• Integrated dedicated neural processing tile<br>• OpenVINO NPU compiler plugin active | Evaluates static dimension rank constraints and subgraph partitioning rules on physical NPU hardware (Task 06). |
+| **System Memory (RAM)** | **16 GB High-Speed Unified Shared Memory (USM)**<br>• Shared zero-copy physical addressing | Evaluates FlashStream ring-buffer weight streaming across 48 layers with sub-30 MB resident RAM delta. |
+| **OpenVINO Device Discovery** | Verified: `['CPU', 'GPU', 'NPU']` (`openvino.Core().available_devices`) | Heterogeneous cross-device execution targets evaluated by the benchmark harness. |
+| **Host Operating System** | **Microsoft Windows 11 Home (64-bit)** | Real-world edge workstation deployment environment. |
+
 ---
 
 ## 4. What It Tests and Why It Matters
