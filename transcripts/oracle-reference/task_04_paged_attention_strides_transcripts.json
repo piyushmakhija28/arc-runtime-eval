@@ -7,7 +7,7 @@
     "metadata": {
       "passed_invariants": true
     },
-    "latency_ms": 1.6,
+    "latency_ms": 1.23,
     "error": null
   },
   {
@@ -18,7 +18,7 @@
     "metadata": {
       "passed_invariants": true
     },
-    "latency_ms": 1.19,
+    "latency_ms": 1.11,
     "error": null
   },
   {
@@ -29,7 +29,7 @@
     "metadata": {
       "passed_invariants": true
     },
-    "latency_ms": 1.66,
+    "latency_ms": 1.1,
     "error": null
   }
 ]

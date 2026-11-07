@@ -8,7 +8,7 @@
       "error": "Failed cumulative acceptance mask condition",
       "passed_invariants": false
     },
-    "latency_ms": 1.79,
+    "latency_ms": 2.19,
     "error": null
   },
   {
@@ -20,7 +20,7 @@
       "error": "Failed cumulative acceptance mask condition",
       "passed_invariants": false
     },
-    "latency_ms": 1.58,
+    "latency_ms": 1.54,
     "error": null
   },
   {
@@ -32,7 +32,7 @@
       "error": "Failed cumulative acceptance mask condition",
       "passed_invariants": false
     },
-    "latency_ms": 1.5,
+    "latency_ms": 1.79,
     "error": null
   }
 ]

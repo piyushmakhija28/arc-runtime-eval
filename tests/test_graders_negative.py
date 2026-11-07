@@ -2,7 +2,7 @@
 
 import pytest
 from graders import get_grader
-from providers.mocked_provider import FRONTIER_MODEL_TRACES
+from providers.mocked_provider import FLAWED_TRACES
 
 @pytest.mark.parametrize("task_id", [
     "task_01_sycl_usm_barrier",
@@ -16,7 +16,7 @@ from providers.mocked_provider import FRONTIER_MODEL_TRACES
 ])
 def test_mocked_llm_failures_score_zero(task_id: str):
     """Verifies that typical frontier LLM failure patterns cleanly score 0.0 (no false passes)."""
-    flawed_code = FRONTIER_MODEL_TRACES["gpt-4o"][task_id]
+    flawed_code = FLAWED_TRACES[task_id]
     grader = get_grader(task_id)
     score, metadata = grader.grade(flawed_code)
 

@@ -2,43 +2,43 @@
   {
     "trial": 1,
     "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
-    "output": "```cpp\n// GPT-4o typically emits CUDA-like stream assumptions without depends_on\n#include <sycl/sycl.hpp>\n\nvoid submit_workload(sycl::queue& q, const float* h_weights, float* d_weights, size_t count) {\n    q.memcpy(d_weights, h_weights, count * sizeof(float));\n    q.parallel_for(sycl::range<1>(count), [=](sycl::id<1> idx) {\n        d_weights[idx] = d_weights[idx] * 2.0f;\n    });\n}\n```",
-    "score": 0.0,
+    "output": "```cpp\n#include <sycl/sycl.hpp>\n\nvoid submit_workload(sycl::queue& q, const float* h_weights, float* d_weights, size_t count) {\n    sycl::event copy_event = q.memcpy(d_weights, h_weights, count * sizeof(float));\n    q.submit([&](sycl::handler& h) {\n        h.depends_on(copy_event);\n        h.parallel_for(sycl::range<1>(count), [=](sycl::id<1> idx) {\n            d_weights[idx] = d_weights[idx] * 2.0f;\n        });\n    });\n}\n```",
+    "score": 1.0,
     "metadata": {
-      "has_depends_on": false,
-      "has_event_capture": false,
+      "has_depends_on": true,
+      "has_event_capture": true,
       "has_forbidden_wait": false,
-      "passed_invariants": false
+      "passed_invariants": true
     },
-    "latency_ms": 0.59,
+    "latency_ms": 1.0,
     "error": null
   },
   {
     "trial": 2,
     "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
-    "output": "```cpp\n// GPT-4o typically emits CUDA-like stream assumptions without depends_on\n#include <sycl/sycl.hpp>\n\nvoid submit_workload(sycl::queue& q, const float* h_weights, float* d_weights, size_t count) {\n    q.memcpy(d_weights, h_weights, count * sizeof(float));\n    q.parallel_for(sycl::range<1>(count), [=](sycl::id<1> idx) {\n        d_weights[idx] = d_weights[idx] * 2.0f;\n    });\n}\n```",
-    "score": 0.0,
+    "output": "```cpp\n#include <sycl/sycl.hpp>\n\nvoid submit_workload(sycl::queue& q, const float* h_weights, float* d_weights, size_t count) {\n    sycl::event copy_event = q.memcpy(d_weights, h_weights, count * sizeof(float));\n    q.submit([&](sycl::handler& h) {\n        h.depends_on(copy_event);\n        h.parallel_for(sycl::range<1>(count), [=](sycl::id<1> idx) {\n            d_weights[idx] = d_weights[idx] * 2.0f;\n        });\n    });\n}\n```",
+    "score": 1.0,
     "metadata": {
-      "has_depends_on": false,
-      "has_event_capture": false,
+      "has_depends_on": true,
+      "has_event_capture": true,
       "has_forbidden_wait": false,
-      "passed_invariants": false
+      "passed_invariants": true
     },
-    "latency_ms": 0.51,
+    "latency_ms": 1.23,
     "error": null
   },
   {
     "trial": 3,
     "prompt": "Write a SYCL C++ snippet that asynchronously copies host buffer `h_weights` to device USM allocation `d_weights` using queue `q`, and immediately submits a compute kernel `process_weights` operating on `d_weights`. Ensure strict hardware event ordering so the kernel never reads uninitialized device memory, without stalling the host thread.",
-    "output": "```cpp\n// GPT-4o typically emits CUDA-like stream assumptions without depends_on\n#include <sycl/sycl.hpp>\n\nvoid submit_workload(sycl::queue& q, const float* h_weights, float* d_weights, size_t count) {\n    q.memcpy(d_weights, h_weights, count * sizeof(float));\n    q.parallel_for(sycl::range<1>(count), [=](sycl::id<1> idx) {\n        d_weights[idx] = d_weights[idx] * 2.0f;\n    });\n}\n```",
-    "score": 0.0,
+    "output": "```cpp\n#include <sycl/sycl.hpp>\n\nvoid submit_workload(sycl::queue& q, const float* h_weights, float* d_weights, size_t count) {\n    sycl::event copy_event = q.memcpy(d_weights, h_weights, count * sizeof(float));\n    q.submit([&](sycl::handler& h) {\n        h.depends_on(copy_event);\n        h.parallel_for(sycl::range<1>(count), [=](sycl::id<1> idx) {\n            d_weights[idx] = d_weights[idx] * 2.0f;\n        });\n    });\n}\n```",
+    "score": 1.0,
     "metadata": {
-      "has_depends_on": false,
-      "has_event_capture": false,
+      "has_depends_on": true,
+      "has_event_capture": true,
       "has_forbidden_wait": false,
-      "passed_invariants": false
+      "passed_invariants": true
     },
-    "latency_ms": 0.39,
+    "latency_ms": 0.87,
     "error": null
   }
 ]

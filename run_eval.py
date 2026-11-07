@@ -119,9 +119,10 @@ def run_evaluation(
         all_task_metrics.append(task_metric)
         logger.info(f"Task {task.id}: Pass@1={pass_at_1*100:.1f}%, Pass^k={pass_pow_k*100:.1f}%, CI=[{wilson_ci.lower_bound}, {wilson_ci.upper_bound}]")
 
-    overall_pass_rate = round(total_successes / total_trials, 4)
-    overall_consistency = round(all_tasks_consistent_successes / len(tasks), 4)
-    overall_ci = ConfidenceInterval.calculate_wilson_interval(total_successes, total_trials)
+    tasks_solved = sum(1 for tm in all_task_metrics if tm.pass_at_1 >= 1.0)
+    overall_pass_rate = round(tasks_solved / len(tasks), 4)
+    overall_consistency = 1.0 if all_tasks_consistent_successes == len(tasks) else 0.0
+    overall_ci = ConfidenceInterval.calculate_wilson_interval(tasks_solved, len(tasks))
 
     benchmark = OverallModelBenchmark(
         model_id=model_id,

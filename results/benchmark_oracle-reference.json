@@ -5,7 +5,7 @@
   "overall_pass_rate": 1.0,
   "consistency_pass_pow_k": 1.0,
   "overall_wilson_ci": {
-    "lower_bound": 0.862,
+    "lower_bound": 0.6756,
     "upper_bound": 1.0,
     "confidence_level": 0.95
   },
@@ -22,7 +22,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 0.88
+      "mean_latency_ms": 0.7
     },
     {
       "task_id": "task_02_xmx_2d_block_pitch",
@@ -35,7 +35,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 1.21
+      "mean_latency_ms": 1.48
     },
     {
       "task_id": "task_03_ipex_int4_dequant_stride",
@@ -48,7 +48,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 1.54
+      "mean_latency_ms": 2.26
     },
     {
       "task_id": "task_04_paged_attention_strides",
@@ -61,7 +61,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 1.48
+      "mean_latency_ms": 1.14
     },
     {
       "task_id": "task_05_ooo_queue_cross_sync",
@@ -74,7 +74,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 1.72
+      "mean_latency_ms": 1.66
     },
     {
       "task_id": "task_06_openvino_npu_subgraph",
@@ -87,7 +87,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 1.56
+      "mean_latency_ms": 1.98
     },
     {
       "task_id": "task_07_speculative_token_mask",
@@ -100,7 +100,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 1.77
+      "mean_latency_ms": 1.97
     },
     {
       "task_id": "task_08_slm_bank_conflict_pad",
@@ -113,7 +113,7 @@
         "upper_bound": 1.0,
         "confidence_level": 0.95
       },
-      "mean_latency_ms": 2.19
+      "mean_latency_ms": 2.67
     }
   ]
 }

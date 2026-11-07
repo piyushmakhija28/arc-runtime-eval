@@ -8,7 +8,7 @@
       "error": "Offset mismatch: got 8192, expected 262144",
       "passed_invariants": false
     },
-    "latency_ms": 1.35,
+    "latency_ms": 1.17,
     "error": null
   },
   {
@@ -20,7 +20,7 @@
       "error": "Offset mismatch: got 8192, expected 262144",
       "passed_invariants": false
     },
-    "latency_ms": 0.87,
+    "latency_ms": 0.92,
     "error": null
   },
   {
@@ -32,7 +32,7 @@
       "error": "Offset mismatch: got 8192, expected 262144",
       "passed_invariants": false
     },
-    "latency_ms": 0.77,
+    "latency_ms": 1.45,
     "error": null
   }
 ]

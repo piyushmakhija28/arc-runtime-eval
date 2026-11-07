@@ -10,7 +10,7 @@
       "has_forbidden_wait": false,
       "passed_invariants": true
     },
-    "latency_ms": 1.0,
+    "latency_ms": 0.78,
     "error": null
   },
   {
@@ -24,7 +24,7 @@
       "has_forbidden_wait": false,
       "passed_invariants": true
     },
-    "latency_ms": 0.86,
+    "latency_ms": 0.68,
     "error": null
   },
   {
@@ -38,7 +38,7 @@
       "has_forbidden_wait": false,
       "passed_invariants": true
     },
-    "latency_ms": 0.77,
+    "latency_ms": 0.64,
     "error": null
   }
 ]

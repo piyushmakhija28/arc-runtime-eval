@@ -11,7 +11,7 @@
       "has_blocking_wait": true,
       "passed_invariants": false
     },
-    "latency_ms": 1.78,
+    "latency_ms": 1.28,
     "error": null
   },
   {
@@ -26,7 +26,7 @@
       "has_blocking_wait": true,
       "passed_invariants": false
     },
-    "latency_ms": 1.16,
+    "latency_ms": 1.03,
     "error": null
   },
   {
@@ -41,7 +41,7 @@
       "has_blocking_wait": true,
       "passed_invariants": false
     },
-    "latency_ms": 1.1,
+    "latency_ms": 1.24,
     "error": null
   }
 ]

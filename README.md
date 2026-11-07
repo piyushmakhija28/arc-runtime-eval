@@ -3,7 +3,7 @@
 [![micro1 Eval Hackathon](https://img.shields.io/badge/micro1%20Hackathon-Participant-blueviolet.svg)](https://hackerrank.com/event/micro1-eval-hackathon)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![Tests Passing](https://img.shields.io/badge/pytest-25%20passed%20(100%25)-brightgreen.svg)]()
+[![Tests Passing](https://img.shields.io/badge/pytest-33%20passed%20(100%25)-brightgreen.svg)]()
 
 > **Submission for micro1 Eval Hackathon: "Find What AI Can't Do Yet"**  
 > **Author:** Piyush Makhija ([@piyushmakhija28](https://github.com/piyushmakhija28))  
@@ -86,8 +86,8 @@ Evaluations conducted on **November 7, 2026** across both Live Local Hardware In
 
 | Model ID | Provider | Execution Engine | Tasks | Trials | Pass@1 | Pass^k ($k=3$) | 95% Wilson CI | Full Run Cost |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **Oracle (Reference)** | Ground Truth | Native Verified Python | 8 | 24 | **100.0%** | **100.0%** | [86.2%, 100.0%] | $0.00 |
-| **Claude 3.5 Sonnet (`20241022`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **25.0%** | **0.0%** | [7.2%, 59.1%] | ~$0.01 |
+| **Oracle (Reference)** | Ground Truth | Native Verified Python | 8 | 24 | **100.0%** | **100.0%** | [67.6%, 100.0%] | $0.00 |
+| **Claude 3.5 Sonnet (`20241022`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **25.0%** | **0.0%** | [7.1%, 59.1%] | ~$0.01 |
 | **GPT-4o (`gpt-4o-2024-08-06`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **12.5%** | **0.0%** | [2.2%, 47.1%] | ~$0.01 |
 | **Gemini 1.5 Pro** | Frontier Probe | Cloud API / Replay | 8 | 24 | **12.5%** | **0.0%** | [2.2%, 47.1%] | ~$0.01 |
 | **Qwen-2.5-1.5B** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
