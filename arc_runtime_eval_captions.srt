@@ -1,96 +1,96 @@
 1
-00:00:00,000 --> 00:00:09,393
-Welcome to the evaluation walkthrough of arc-runtime-eval, our submission for the micro1 Eval Hackathon: Find What AI Can't Do Yet.
+00:00:00,000 --> 00:00:08,427
+Hey everyone! Welcome to the evaluation walkthrough of arc-runtime-eval, our submission for micro1 Eval Hackathon.
 
 2
-00:00:09,393 --> 00:00:19,215
-In production systems engineering and local GPU deployments, developers increasingly turn to LLMs to generate accelerated runtime kernels.
+00:00:08,427 --> 00:00:16,470
+Today, I want to show you a critical blindspot in modern AI: hardware runtime invariants on edge accelerators.
 
 3
-00:00:19,215 --> 00:00:28,868
-While frontier models convincingly produce code for standard CUDA, they exhibit catastrophic blind spots when handling low-level hardware runtimes.
+00:00:16,470 --> 00:00:24,267
+In production systems, developers prompt LLMs to write low-level GPU code—and the code compiles cleanly.
 
 4
-00:00:28,868 --> 00:00:39,660
-A missed memory barrier or unaligned stride does not just crash, it causes silent numerical corruption in neural activations or 100x CPU fallback.
+00:00:24,267 --> 00:00:33,183
+But the moment you run it on actual hardware, it completely breaks, causing silent memory corruption or massive CPU fallbacks.
 
 5
-00:00:39,660 --> 00:00:47,863
-To measure this gap rigorously, we designed eight practitioner-level benchmark tasks covering critical accelerator invariants.
+00:00:33,183 --> 00:00:40,476
+To measure this gap rigorously, we built eight practitioner-level benchmark tasks on real Intel Arc accelerators.
 
 6
-00:00:47,863 --> 00:00:57,891
-From asynchronous USM event barriers in SYCL, to Xe Matrix systolic cache pitch alignment and dynamic INT4 nibble unpacking order.
+00:00:40,476 --> 00:00:48,751
+We test everything from asynchronous SYCL USM event barriers to Intel Xe Matrix 2D systolic cache pitch alignments.
 
 7
-00:00:57,891 --> 00:01:05,339
-Every task is scored deterministically using code-based AST invariant visitors and modular pitch arithmetic.
+00:00:48,751 --> 00:00:55,821
+Every single solution is scored deterministically using code AST visitors and exact hardware pitch arithmetic.
 
 8
-00:01:05,339 --> 00:01:13,477
-Graders are formally verified through thirty-three triad unit tests in pytest with zero false passes and zero false fails.
+00:00:55,821 --> 00:01:02,818
+Our grading suite is formally verified through thirty-three triad unit tests in pytest with zero false passes.
 
 9
-00:01:13,477 --> 00:01:21,730
-Our benchmark is grounded in empirical hardware performance measured directly on our local Intel Arc Xe-LPG GPU.
+00:01:02,818 --> 00:01:09,684
+Our benchmark is grounded in empirical hardware performance measured right here on our local Intel Arc GPU.
 
 10
-00:01:21,730 --> 00:01:31,242
-We measured sustained decode throughput of 14.39 tokens per second, with a rapid 302 millisecond time-to-first-token.
+00:01:09,684 --> 00:01:18,950
+We clocked sustained decode throughput at 14.39 tokens per second, with a rapid 302 millisecond time-to-first-token.
 
 11
-00:01:31,242 --> 00:01:41,160
-Furthermore, our FlashStream weight manager streams all forty-eight Transformer layers of a massive 17.28 gigabyte Qwen 30B MoE model.
+00:01:18,950 --> 00:01:26,511
+Even better, our FlashStream weight manager streams all forty-eight layers of a massive seventeen gigabyte Qwen model.
 
 12
-00:01:41,160 --> 00:01:51,157
-With sub-millisecond layer stream latency, FlashStream maintains peak resident RAM delta strictly under thirty megabytes, eliminating Out-Of-Memory.
+00:01:26,511 --> 00:01:36,099
+With sub-millisecond layer swapping, FlashStream keeps peak RAM delta under thirty megabytes, completely eliminating Out-Of-Memory crashes!
 
 13
-00:01:51,157 --> 00:02:03,225
-Here is where frontier models systematically hallucinate. On Task 2, Intel Arc Xe Matrix Arrays load 2D sub-tiles via 64-byte aligned pitch strides.
+00:01:36,099 --> 00:01:48,063
+Now, let's look at where frontier models consistently fail. On Task 2, Intel Xe Matrix Arrays load 2D sub-tiles via 64-byte aligned strides.
 
 14
-00:02:03,225 --> 00:02:15,017
-Every frontier model, including GPT-4o and Claude 3.5 Sonnet, naively calculates width times element size, completely missing cacheline pitch.
+00:01:48,063 --> 00:01:59,360
+Every single frontier model—including GPT-4o and Claude 3.5 Sonnet—naively calculates width times element size, completely missing the cacheline pitch!
 
 15
-00:02:15,017 --> 00:02:26,599
-Similarly on Task 1, models port sequential CUDA stream assumptions onto out-of-order SYCL queues, omitting explicit h.depends_on barriers.
+00:01:59,360 --> 00:02:09,171
+On Task 1, models port CUDA stream assumptions onto out-of-order SYCL queues, omitting explicit host synchronization barriers.
 
 16
-00:02:26,599 --> 00:02:35,697
-This causes compute kernels to race against asynchronous DMA memory copies, producing non-reproducible race conditions in production.
+00:02:09,171 --> 00:02:16,978
+This causes compute kernels to race against DMA memory copies, producing silent race conditions in production.
 
 17
-00:02:35,697 --> 00:02:42,885
-When we evaluate frontier models across twenty-four total trials, a profound limitation emerges.
+00:02:16,978 --> 00:02:23,498
+When we evaluate models across twenty-four repeated trials, a profound limitation emerges.
 
 18
-00:02:42,885 --> 00:02:54,753
-While Claude 3.5 Sonnet achieves a 25% single-pass rate, and GPT-4o and Gemini Pro achieve 12.5% by solving static rank filtering,
+00:02:23,498 --> 00:02:34,105
+While Claude 3.5 Sonnet achieves a 25% single-pass rate, and GPT-4o gets 12.5% by solving static rank filtering,
 
 19
-00:02:54,753 --> 00:03:05,411
-their multi-trial consistency across all eight tasks drops to absolute zero percent. Zero percent Pass to the k proves zero-shot code is unsafe.
+00:02:34,105 --> 00:02:44,304
+their multi-trial consistency across all eight tasks drops to absolute zero percent! Zero percent Pass to the k proves zero-shot code is unsafe.
 
 20
-00:03:05,411 --> 00:03:15,358
-Every trial failure is packaged into our offline deterministic replay harness, allowing judges to reproduce all findings in 1.5 seconds.
+00:02:44,304 --> 00:02:51,874
+Every trial failure is packaged into our offline deterministic replay harness, reproducible in under two seconds.
 
 21
-00:03:15,358 --> 00:03:23,706
+00:02:51,874 --> 00:02:59,717
 Our headline takeaway is the killer hot take: AI does not lack capability, it lacks grounded execution harnesses.
 
 22
-00:03:23,706 --> 00:03:32,929
-When frontier models are paired with AST invariant gates and hardware groundings, they can hill-climb to 100% correct solutions.
+00:02:59,717 --> 00:03:08,405
+When frontier models are paired with AST invariant gates and hardware groundings, they can hill-climb to 100% correct code.
 
 23
-00:03:32,929 --> 00:03:43,116
+00:03:08,405 --> 00:03:18,266
 Finally, to share a moment of radical honesty: I am not a traditional systems engineer, and I have been unemployed for three months with zero budget.
 
 24
-00:03:43,116 --> 00:03:53,149
-Every invariant and benchmark here was engineered through disciplined vibe coding with Gemini 3.8 Flash inside Google Antigravity. Thank you!
+00:03:18,266 --> 00:03:27,006
+Every invariant and benchmark here was engineered through disciplined vibe coding with Gemini inside Google Antigravity. Thank you!
 

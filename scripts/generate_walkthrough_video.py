@@ -5,10 +5,13 @@ presenter avatar bubble, high-resolution technical slides, dynamic sentence-sync
 Closed Captions (CC), and embedded soft subtitles track.
 """
 
+import asyncio
 import os
 from pathlib import Path
 import subprocess
 import win32com.client
+import winrt.windows.media.speechsynthesis as ss
+import winrt.windows.storage.streams as streams
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -389,18 +392,33 @@ q.submit([&](sycl::handler& h) {
     draw_presenter_bubble(img)
     return img
 
+async def _synthesize_winrt_audio(text: str, output_wav: Path, voice_name: str = "Ravi"):
+    """Synthesizes high-fidelity speech using Windows WinRT neural voice."""
+    synth = ss.SpeechSynthesizer()
+    matching_voices = [v for v in ss.SpeechSynthesizer.all_voices if voice_name.lower() in v.display_name.lower()]
+    if matching_voices:
+        synth.voice = matching_voices[0]
+    
+    stream = await synth.synthesize_text_to_stream_async(text)
+    reader = streams.DataReader(stream.get_input_stream_at(0))
+    await reader.load_async(stream.size)
+    data = reader.read_buffer(stream.size)
+    output_wav.write_bytes(bytes(data))
+
 def generate_sentence_audio(text: str, output_wav: Path):
-    """Generates clean WAV voiceover using Windows SAPI."""
-    speaker = win32com.client.Dispatch("SAPI.SpVoice")
-    stream = win32com.client.Dispatch("SAPI.SpFileStream")
-    voices = speaker.GetVoices()
-    if voices.Count > 0:
-        speaker.Voice = voices.Item(0)
-    speaker.Rate = 0
-    stream.Open(str(output_wav), 3)
-    speaker.AudioOutputStream = stream
-    speaker.Speak(text)
-    stream.Close()
+    """Generates natural, expressive voiceover using Windows WinRT neural voices."""
+    try:
+        asyncio.run(_synthesize_winrt_audio(text, output_wav, "Ravi"))
+    except Exception:
+        try:
+            asyncio.run(_synthesize_winrt_audio(text, output_wav, "Mark"))
+        except Exception:
+            speaker = win32com.client.Dispatch("SAPI.SpVoice")
+            stream = win32com.client.Dispatch("SAPI.SpFileStream")
+            stream.Open(str(output_wav), 3)
+            speaker.AudioOutputStream = stream
+            speaker.Speak(text)
+            stream.Close()
 
 def get_audio_duration(wav_path: Path) -> float:
     """Gets audio duration using ffprobe."""
@@ -422,49 +440,49 @@ def format_srt_time(seconds: float) -> str:
 def main():
     print("=== Step 1: Defining Scene Sentences for Synchronized CC ===")
     
-    # 6 Scenes broken into distinct sentence units
+    # 6 Scenes written in conversational, engaging presenter voice
     scenes_data = [
         # Scene 1: The Problem & Real-World Impact
         [
-            "Welcome to the evaluation walkthrough of arc-runtime-eval, our submission for the micro1 Eval Hackathon: Find What AI Can't Do Yet.",
-            "In production systems engineering and local GPU deployments, developers increasingly turn to LLMs to generate accelerated runtime kernels.",
-            "While frontier models convincingly produce code for standard CUDA, they exhibit catastrophic blind spots when handling low-level hardware runtimes.",
-            "A missed memory barrier or unaligned stride does not just crash, it causes silent numerical corruption in neural activations or 100x CPU fallback."
+            "Hey everyone! Welcome to the evaluation walkthrough of arc-runtime-eval, our submission for micro1 Eval Hackathon.",
+            "Today, I want to show you a critical blindspot in modern AI: hardware runtime invariants on edge accelerators.",
+            "In production systems, developers prompt LLMs to write low-level GPU code—and the code compiles cleanly.",
+            "But the moment you run it on actual hardware, it completely breaks, causing silent memory corruption or massive CPU fallbacks."
         ],
         # Scene 2: 8 Tasks & Deterministic Graders
         [
-            "To measure this gap rigorously, we designed eight practitioner-level benchmark tasks covering critical accelerator invariants.",
-            "From asynchronous USM event barriers in SYCL, to Xe Matrix systolic cache pitch alignment and dynamic INT4 nibble unpacking order.",
-            "Every task is scored deterministically using code-based AST invariant visitors and modular pitch arithmetic.",
-            "Graders are formally verified through thirty-three triad unit tests in pytest with zero false passes and zero false fails."
+            "To measure this gap rigorously, we built eight practitioner-level benchmark tasks on real Intel Arc accelerators.",
+            "We test everything from asynchronous SYCL USM event barriers to Intel Xe Matrix 2D systolic cache pitch alignments.",
+            "Every single solution is scored deterministically using code AST visitors and exact hardware pitch arithmetic.",
+            "Our grading suite is formally verified through thirty-three triad unit tests in pytest with zero false passes."
         ],
         # Scene 3: Silicon Telemetry on Intel Arc GPU
         [
-            "Our benchmark is grounded in empirical hardware performance measured directly on our local Intel Arc Xe-LPG GPU.",
-            "We measured sustained decode throughput of 14.39 tokens per second, with a rapid 302 millisecond time-to-first-token.",
-            "Furthermore, our FlashStream weight manager streams all forty-eight Transformer layers of a massive 17.28 gigabyte Qwen 30B MoE model.",
-            "With sub-millisecond layer stream latency, FlashStream maintains peak resident RAM delta strictly under thirty megabytes, eliminating Out-Of-Memory."
+            "Our benchmark is grounded in empirical hardware performance measured right here on our local Intel Arc GPU.",
+            "We clocked sustained decode throughput at 14.39 tokens per second, with a rapid 302 millisecond time-to-first-token.",
+            "Even better, our FlashStream weight manager streams all forty-eight layers of a massive seventeen gigabyte Qwen model.",
+            "With sub-millisecond layer swapping, FlashStream keeps peak RAM delta under thirty megabytes, completely eliminating Out-Of-Memory crashes!"
         ],
         # Scene 4: Failure Transcripts Deep-Dive
         [
-            "Here is where frontier models systematically hallucinate. On Task 2, Intel Arc Xe Matrix Arrays load 2D sub-tiles via 64-byte aligned pitch strides.",
-            "Every frontier model, including GPT-4o and Claude 3.5 Sonnet, naively calculates width times element size, completely missing cacheline pitch.",
-            "Similarly on Task 1, models port sequential CUDA stream assumptions onto out-of-order SYCL queues, omitting explicit h.depends_on barriers.",
-            "This causes compute kernels to race against asynchronous DMA memory copies, producing non-reproducible race conditions in production."
+            "Now, let's look at where frontier models consistently fail. On Task 2, Intel Xe Matrix Arrays load 2D sub-tiles via 64-byte aligned strides.",
+            "Every single frontier model—including GPT-4o and Claude 3.5 Sonnet—naively calculates width times element size, completely missing the cacheline pitch!",
+            "On Task 1, models port CUDA stream assumptions onto out-of-order SYCL queues, omitting explicit host synchronization barriers.",
+            "This causes compute kernels to race against DMA memory copies, producing silent race conditions in production."
         ],
         # Scene 5: Results & Consistency Metric
         [
-            "When we evaluate frontier models across twenty-four total trials, a profound limitation emerges.",
-            "While Claude 3.5 Sonnet achieves a 25% single-pass rate, and GPT-4o and Gemini Pro achieve 12.5% by solving static rank filtering,",
-            "their multi-trial consistency across all eight tasks drops to absolute zero percent. Zero percent Pass to the k proves zero-shot code is unsafe.",
-            "Every trial failure is packaged into our offline deterministic replay harness, allowing judges to reproduce all findings in 1.5 seconds."
+            "When we evaluate models across twenty-four repeated trials, a profound limitation emerges.",
+            "While Claude 3.5 Sonnet achieves a 25% single-pass rate, and GPT-4o gets 12.5% by solving static rank filtering,",
+            "their multi-trial consistency across all eight tasks drops to absolute zero percent! Zero percent Pass to the k proves zero-shot code is unsafe.",
+            "Every trial failure is packaged into our offline deterministic replay harness, reproducible in under two seconds."
         ],
         # Scene 6: The Killer Hot Take & Personal Manifesto
         [
             "Our headline takeaway is the killer hot take: AI does not lack capability, it lacks grounded execution harnesses.",
-            "When frontier models are paired with AST invariant gates and hardware groundings, they can hill-climb to 100% correct solutions.",
+            "When frontier models are paired with AST invariant gates and hardware groundings, they can hill-climb to 100% correct code.",
             "Finally, to share a moment of radical honesty: I am not a traditional systems engineer, and I have been unemployed for three months with zero budget.",
-            "Every invariant and benchmark here was engineered through disciplined vibe coding with Gemini 3.8 Flash inside Google Antigravity. Thank you!"
+            "Every invariant and benchmark here was engineered through disciplined vibe coding with Gemini inside Google Antigravity. Thank you!"
         ]
     ]
 
