@@ -7,3 +7,5 @@ venv/
 .venv/
 results/live_*
 *.log
+*.mp4
+build_video/
