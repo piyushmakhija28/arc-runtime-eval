@@ -1,0 +1,38 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int` that maps a logical token, head, and channel index to its flat physical memory byte/element offset within a paged KV cache table.",
+    "output": "```python\ndef calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int:\n    # Omits head count in page stride\n    page_id = block_table[token_idx // page_size]\n    slot = token_idx % page_size\n    return page_id * page_size * head_dim + slot * head_dim + dim_idx\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Offset mismatch: got 8192, expected 262144",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.75,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int` that maps a logical token, head, and channel index to its flat physical memory byte/element offset within a paged KV cache table.",
+    "output": "```python\ndef calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int:\n    # Omits head count in page stride\n    page_id = block_table[token_idx // page_size]\n    slot = token_idx % page_size\n    return page_id * page_size * head_dim + slot * head_dim + dim_idx\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Offset mismatch: got 8192, expected 262144",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.24,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int` that maps a logical token, head, and channel index to its flat physical memory byte/element offset within a paged KV cache table.",
+    "output": "```python\ndef calculate_kv_offset(token_idx: int, head_idx: int, dim_idx: int, block_table: list, page_size: int, num_heads: int, head_dim: int) -> int:\n    # Omits head count in page stride\n    page_id = block_table[token_idx // page_size]\n    slot = token_idx % page_size\n    return page_id * page_size * head_dim + slot * head_dim + dim_idx\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Offset mismatch: got 8192, expected 262144",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.03,
+    "error": null
+  }
+]

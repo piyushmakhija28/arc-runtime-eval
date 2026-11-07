@@ -1,0 +1,38 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "```python\nimport numpy as np\n\ndef dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray:\n    # Standard mistake: Big-endian high-nibble first or inverted nibble order\n    total = len(packed_weights) * 2\n    out = np.empty(total, dtype=np.float32)\n    for i, b in enumerate(packed_weights):\n        # Inverted: high nibble unpacked first\n        w0 = int((b >> 4) & 0x0F)\n        w1 = int(b & 0x0F)\n        idx = i * 2\n        out[idx] = float(w0 - 8) * float(scales[idx])\n        out[idx + 1] = float(w1 - 8) * float(scales[idx + 1])\n    return out\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Tensor values mismatched expected ground truth",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.06,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "```python\nimport numpy as np\n\ndef dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray:\n    # Standard mistake: Big-endian high-nibble first or inverted nibble order\n    total = len(packed_weights) * 2\n    out = np.empty(total, dtype=np.float32)\n    for i, b in enumerate(packed_weights):\n        # Inverted: high nibble unpacked first\n        w0 = int((b >> 4) & 0x0F)\n        w1 = int(b & 0x0F)\n        idx = i * 2\n        out[idx] = float(w0 - 8) * float(scales[idx])\n        out[idx + 1] = float(w1 - 8) * float(scales[idx + 1])\n    return out\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Tensor values mismatched expected ground truth",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.88,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray` that unpacks 4-bit integer weights packed two per uint8 byte. Follow symmetric quantization with zero-point offset 8: low nibble (bits 0-3) unpacked first, followed by high nibble (bits 4-7), converted to float32 as `(nibble - 8) * scale`.",
+    "output": "```python\nimport numpy as np\n\ndef dequantize_int4_symmetric(packed_weights: np.ndarray, scales: np.ndarray) -> np.ndarray:\n    # Standard mistake: Big-endian high-nibble first or inverted nibble order\n    total = len(packed_weights) * 2\n    out = np.empty(total, dtype=np.float32)\n    for i, b in enumerate(packed_weights):\n        # Inverted: high nibble unpacked first\n        w0 = int((b >> 4) & 0x0F)\n        w1 = int(b & 0x0F)\n        idx = i * 2\n        out[idx] = float(w0 - 8) * float(scales[idx])\n        out[idx + 1] = float(w1 - 8) * float(scales[idx + 1])\n    return out\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Tensor values mismatched expected ground truth",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.79,
+    "error": null
+  }
+]

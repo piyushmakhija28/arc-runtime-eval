@@ -1,0 +1,38 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    # Standard mistake: naive row stride without cache alignment padding\n    return width * element_size_bytes\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Failed on width=127: got 508, expected 512",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.69,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    # Standard mistake: naive row stride without cache alignment padding\n    return width * element_size_bytes\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Failed on width=127: got 508, expected 512",
+      "passed_invariants": false
+    },
+    "latency_ms": 1.53,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+    "output": "```python\ndef calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int:\n    # Standard mistake: naive row stride without cache alignment padding\n    return width * element_size_bytes\n```",
+    "score": 0.0,
+    "metadata": {
+      "error": "Failed on width=127: got 508, expected 512",
+      "passed_invariants": false
+    },
+    "latency_ms": 0.57,
+    "error": null
+  }
+]

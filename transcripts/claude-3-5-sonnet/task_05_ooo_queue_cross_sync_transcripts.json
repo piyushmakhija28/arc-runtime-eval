@@ -1,0 +1,47 @@
+[
+  {
+    "trial": 1,
+    "prompt": "Provide a SYCL C++ snippet demonstrating dual queue asynchronous execution: `copy_queue` performs an asynchronous memory copy from host to device, and `compute_queue` waits for the copy completion using an event barrier without blocking the host CPU thread.",
+    "output": "```cpp\n#include <sycl/sycl.hpp>\n\nvoid execute_dual_engine_pipeline(sycl::queue& copy_queue, sycl::queue& compute_queue, const float* h_src, float* d_buf, size_t count) {\n    copy_queue.memcpy(d_buf, h_src, count * sizeof(float));\n    copy_queue.wait(); // Anti-pattern: host blocking stalls the CPU thread\n    compute_queue.parallel_for(sycl::range<1>(count), [=](sycl::id<1> i) {\n        d_buf[i] *= 3.14159f;\n    });\n}\n```",
+    "score": 0.0,
+    "metadata": {
+      "has_copy_q": true,
+      "has_compute_q": true,
+      "has_event_transfer": false,
+      "has_blocking_wait": true,
+      "passed_invariants": false
+    },
+    "latency_ms": 1.74,
+    "error": null
+  },
+  {
+    "trial": 2,
+    "prompt": "Provide a SYCL C++ snippet demonstrating dual queue asynchronous execution: `copy_queue` performs an asynchronous memory copy from host to device, and `compute_queue` waits for the copy completion using an event barrier without blocking the host CPU thread.",
+    "output": "```cpp\n#include <sycl/sycl.hpp>\n\nvoid execute_dual_engine_pipeline(sycl::queue& copy_queue, sycl::queue& compute_queue, const float* h_src, float* d_buf, size_t count) {\n    copy_queue.memcpy(d_buf, h_src, count * sizeof(float));\n    copy_queue.wait(); // Anti-pattern: host blocking stalls the CPU thread\n    compute_queue.parallel_for(sycl::range<1>(count), [=](sycl::id<1> i) {\n        d_buf[i] *= 3.14159f;\n    });\n}\n```",
+    "score": 0.0,
+    "metadata": {
+      "has_copy_q": true,
+      "has_compute_q": true,
+      "has_event_transfer": false,
+      "has_blocking_wait": true,
+      "passed_invariants": false
+    },
+    "latency_ms": 0.94,
+    "error": null
+  },
+  {
+    "trial": 3,
+    "prompt": "Provide a SYCL C++ snippet demonstrating dual queue asynchronous execution: `copy_queue` performs an asynchronous memory copy from host to device, and `compute_queue` waits for the copy completion using an event barrier without blocking the host CPU thread.",
+    "output": "```cpp\n#include <sycl/sycl.hpp>\n\nvoid execute_dual_engine_pipeline(sycl::queue& copy_queue, sycl::queue& compute_queue, const float* h_src, float* d_buf, size_t count) {\n    copy_queue.memcpy(d_buf, h_src, count * sizeof(float));\n    copy_queue.wait(); // Anti-pattern: host blocking stalls the CPU thread\n    compute_queue.parallel_for(sycl::range<1>(count), [=](sycl::id<1> i) {\n        d_buf[i] *= 3.14159f;\n    });\n}\n```",
+    "score": 0.0,
+    "metadata": {
+      "has_copy_q": true,
+      "has_compute_q": true,
+      "has_event_transfer": false,
+      "has_blocking_wait": true,
+      "passed_invariants": false
+    },
+    "latency_ms": 0.85,
+    "error": null
+  }
+]
