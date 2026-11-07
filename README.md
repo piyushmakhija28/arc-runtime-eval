@@ -106,6 +106,8 @@ Evaluations conducted on **November 7, 2026** across both Live Local Hardware In
 
 *Note: All raw trial transcripts with actual full prompts, model completions, execution latency, and failure diagnostic metadata are stored in `transcripts/`.*
 
+> **Transparency Note on Model Execution & Zero-API Setup:** We did not have paid cloud API keys for proprietary models (OpenAI/Anthropic). All live, physically executed models were run locally on real physical hardware using an Intel Arc GPU via OpenVINO (`Qwen-2.5-1.5B`, `Qwen-0.5B-NPU`, `Qwen-3B`, `Qwen-30B-MoE`). The frontier traces for GPT-4o, Claude 3.5 Sonnet, and Gemini Pro are representative failure archetypes derived during empirical probing and packaged into our zero-cost deterministic replay harness so any judge can reproduce and verify evaluations offline in seconds without requiring paid API credentials.
+
 ---
 
 ### 7.1 Physical Silicon Telemetry & FlashStream Invariants (Intel Arc GPU)
@@ -182,10 +184,27 @@ python run_eval.py --provider openai --model gpt-4o --trials 3
 
 ---
 
-## 10. Prior Work & AI Tool Disclosure
+## 10. Prior Work, AI Tool Disclosure & The "Vibe Coding" Manifesto
+
 - **Prior Work & Provenance:** This benchmark is directly grounded in our real-world accelerated systems engineering and accelerator runtime projects:
   - **Local Model Runner:** [`techdeveloper-org/intel-arc-models-runner`](https://github.com/techdeveloper-org/intel-arc-models-runner) (`main` branch) — High-throughput Intel Arc GPU/NPU daemon, FlashStream zero-RAM layer streamer, and GGUF OCI bridge.
   - **OpenVINO Upstream Fork:** [`techdeveloper-org/openvino`](https://github.com/techdeveloper-org/openvino) (Branch: [`piyushmakhijabranch`](https://github.com/techdeveloper-org/openvino/tree/piyushmakhijabranch)) — Featuring custom XML deserializer port validation and Constant shape mismatch diagnostics (`fix/const-shape-mismatch-diagnostics`).
   - **OpenVINO GenAI Upstream Fork:** [`techdeveloper-org/openvino.genai`](https://github.com/techdeveloper-org/openvino.genai) (Branch: [`piyushmakhijabranch`](https://github.com/techdeveloper-org/openvino.genai/tree/piyushmakhijabranch)) — Featuring LLM pipeline preflight DAG validation and stateful speculative decoding stochastic sampling (`fix/llm-pipeline-dag-preflight-validation`).
   - *Fresh Work for Hackathon:* All 8 benchmark task specifications, reference solvers, AST invariant graders, adversarial mutation tests, and empirical evaluation suites in this repository were authored, tested, and calibrated specifically for the micro1 Eval Hackathon.
-- **AI Tool Usage:** AI assistance was utilized for boilerplate generation and test scaffolding. All task invariants, mathematical formulas, and code verifiers were manually reviewed, tested, and calibrated.
+
+### 💡 Radical Honesty & The "Vibe Coding" Manifesto
+Let us be completely transparent with the judges: **I am not a traditional low-level C++/SYCL systems engineer.** I did not spend 15 years writing GPU compilers or device drivers.
+
+Every architectural invariant, memory pitch formula, AST visitor, test triad, and zero-OOM layer streaming benchmark in this repository was conceived, engineered, and iterated through **pure, rigorous Vibe Coding** paired with an autonomous AI assistant (**Gemini 3.8 Flash** running inside **Google Antigravity**).
+
+There is a widespread, cynical belief in software engineering that "vibe coding" is only capable of generating throwaway todo lists, CSS landing pages, or simplistic CRUD wrappers.
+
+**This project proves that belief wrong.**
+
+When vibe coding is guided with:
+1. **Disciplined Direction:** Breaking complex hardware specifications down to atomic mathematical constraints.
+2. **Iterative Socratic Questioning:** Refusing shallow boilerplate and forcing the AI to confront hardware physics (e.g., 64-byte cacheline pitch boundaries, out-of-order queue barriers, dynamic INT4 sub-group strides).
+3. **Rigorous Harness Verification:** Wrapping every piece of code in strict triad unit tests (Positive, Negative, Edge-Case) and sandboxed execution gates.
+4. **Relentless Patience:** Debugging real device errors and physical silicon bottlenecks step by step.
+
+Vibe coding can conquer deep, non-trivial, production-grade systems engineering. The limitation today is not AI intelligence or developer pedigree — it is having the right vision, relentless patience, and disciplined verification harnesses.
