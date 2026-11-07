@@ -1,24 +1,96 @@
 1
-00:00:00,000 --> 00:00:35,510
-Hey everyone! Welcome to arc-runtime-eval. Today, I want to show you why frontier AI models systematically fail on hardware runtime invariants.
+00:00:00,000 --> 00:00:11,675
+Hey everyone! Welcome to the evaluation walkthrough of arc-runtime-eval, our submission for micro1 Eval Hackathon.
 
 2
-00:00:35,510 --> 00:01:11,909
-To measure this gap rigorously, we built eight practitioner-level benchmark tasks verified through thirty-three triad unit tests in pytest.
+00:00:11,675 --> 00:00:21,275
+Today, I want to show you a critical blindspot in modern AI: hardware runtime invariants on edge accelerators.
 
 3
-00:01:11,909 --> 00:01:50,239
-Our benchmark is grounded in empirical hardware performance measured on our local Intel Arc GPU, delivering 14.39 tokens per second decode speed.
+00:00:21,275 --> 00:00:26,775
+In production systems, developers prompt LLMs to write low-level GPU code—and the code compiles cleanly.
 
 4
-00:01:50,239 --> 00:02:31,790
-Now, let's look at where frontier models consistently fail. On Task 2, models miss 64-byte systolic cache pitch, and on Task 1, they omit SYCL event barriers.
+00:00:26,775 --> 00:00:36,661
+But the moment you run it on actual hardware, it completely breaks, causing silent memory corruption or massive CPU fallbacks.
 
 5
-00:02:31,790 --> 00:03:05,298
-When we evaluate frontier models across twenty-four trials, multi-trial consistency collapses to absolute zero percent Pass to the k.
+00:00:36,661 --> 00:00:44,436
+To measure this gap rigorously, we built eight practitioner-level benchmark tasks on real Intel Arc accelerators.
 
 6
-00:03:05,298 --> 00:03:38,555
-Our headline takeaway: AI does not lack capability, it lacks grounded execution harnesses. Every benchmark here was engineered with Gemini in Antigravity.
+00:00:44,436 --> 00:00:52,936
+We test everything from asynchronous SYCL USM event barriers to Intel Xe Matrix 2D systolic cache pitch alignments.
+
+7
+00:00:52,936 --> 00:01:06,636
+Every single solution is scored deterministically using code AST visitors and exact hardware pitch arithmetic.
+
+8
+00:01:06,636 --> 00:01:14,250
+Our grading suite is formally verified through thirty-three triad unit tests in pytest with zero false passes.
+
+9
+00:01:14,250 --> 00:01:22,575
+Our benchmark is grounded in empirical hardware performance measured right here on our local Intel Arc GPU.
+
+10
+00:01:22,575 --> 00:01:35,225
+We clocked sustained decode throughput at 14.39 tokens per second, with a rapid 302 millisecond time-to-first-token.
+
+11
+00:01:35,225 --> 00:01:43,675
+Even better, our FlashStream weight manager streams all forty-eight layers of a massive seventeen gigabyte Qwen model.
+
+12
+00:01:43,675 --> 00:01:53,838
+With sub-millisecond layer swapping, FlashStream keeps peak RAM delta under thirty megabytes, completely eliminating Out-Of-Memory crashes!
+
+13
+00:01:53,838 --> 00:02:05,163
+Now, let's look at where frontier models consistently fail. On Task 2, Intel Xe Matrix Arrays load 2D sub-tiles via 64-byte aligned strides.
+
+14
+00:02:05,163 --> 00:02:14,463
+Every single frontier model—including GPT-4o and Claude 3.5 Sonnet—naively calculates width times element size, completely missing the cacheline pitch!
+
+15
+00:02:14,463 --> 00:02:24,413
+On Task 1, models port CUDA stream assumptions onto out-of-order SYCL queues, omitting explicit host synchronization barriers.
+
+16
+00:02:24,413 --> 00:02:36,781
+This causes compute kernels to race against DMA memory copies, producing silent race conditions in production.
+
+17
+00:02:36,781 --> 00:02:42,456
+When we evaluate models across twenty-four repeated trials, a profound limitation emerges.
+
+18
+00:02:42,456 --> 00:02:55,356
+While Claude 3.5 Sonnet achieves a 25% single-pass rate, and GPT-4o gets 12.5% by solving static rank filtering,
+
+19
+00:02:55,356 --> 00:03:04,806
+their multi-trial consistency across all eight tasks drops to absolute zero percent! Zero percent Pass to the k proves zero-shot code is unsafe.
+
+20
+00:03:04,806 --> 00:03:11,370
+Every trial failure is packaged into our offline deterministic replay harness, reproducible in under two seconds.
+
+21
+00:03:11,370 --> 00:03:17,145
+Our headline takeaway is the killer hot take: AI does not lack capability, it lacks grounded execution harnesses.
+
+22
+00:03:17,145 --> 00:03:29,095
+When frontier models are paired with AST invariant gates and hardware groundings, they can hill-climb to 100% correct code.
+
+23
+00:03:29,095 --> 00:03:38,945
+Finally, to share a moment of radical honesty: I am not a traditional systems engineer, and I have been unemployed for three months with zero budget.
+
+24
+00:03:38,945 --> 00:03:45,693
+Every invariant and benchmark here was engineered through disciplined vibe coding with Gemini inside Google Antigravity. Thank you!
 
