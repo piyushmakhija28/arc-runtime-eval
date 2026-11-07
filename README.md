@@ -17,7 +17,7 @@ Frontier AI models (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5 Pro) convincingly gene
 ---
 
 ## 2. Video Walkthrough Link
-- **Walkthrough Video (YouTube / Drive Link):** [https://youtu.be/arc-runtime-eval-walkthrough](https://youtu.be/arc-runtime-eval-walkthrough) *(Unrestricted access, playable with full audio)*
+- **Walkthrough Video (Google Drive Link):** [https://drive.google.com/file/d/1yBND2bGPNquMEurWl7Ep-rwF2rxidOCB/view?usp=drive_link](https://drive.google.com/file/d/1yBND2bGPNquMEurWl7Ep-rwF2rxidOCB/view?usp=drive_link) *(Unrestricted access, playable with full audio)*
 - **Contents (≤ 5 minutes):**
   1. *The Problem & Real-World Impact (0:00 - 1:00)*: Why subtle hardware invariants cause silent numerical corruption and 100x latency degradation in production edge AI.
   2. *Benchmark Task Design & Grading Logic (1:00 - 2:30)*: Code-based deterministic verification, modular pitch arithmetic, and event DAG traversals.
