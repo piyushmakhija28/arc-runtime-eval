@@ -146,7 +146,7 @@ class OutOfOrderQueueSyncGrader(TaskGrader):
         has_copy_q = "copy_queue" in code or "q_copy" in code or "copy_q" in code or "copy" in code.lower()
         has_compute_q = "compute_queue" in code or "q_compute" in code or "compute_q" in code or "compute" in code.lower()
         has_event_transfer = bool(re.search(r"depends_on\s*\(\s*(\w+)\s*\)", code))
-        has_blocking_wait = "copy_queue.wait()" in code or "q_copy.wait()" in code
+        has_blocking_wait = bool(re.search(r"(?:\w+)\.wait\s*\(\s*\)", code))
 
         passed = has_copy_q and has_compute_q and has_event_transfer and not has_blocking_wait
         score = 1.0 if passed else 0.0

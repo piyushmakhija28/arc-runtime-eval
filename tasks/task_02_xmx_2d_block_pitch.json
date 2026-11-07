@@ -3,7 +3,7 @@
   "title": "Intel Arc XMX 2D Block Load Pitch Alignment",
   "domain": "Accelerated AI Hardware Runtimes",
   "complexity": "HARDWARE_EXPERT",
-  "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
+  "prompt": "Implement a Python function `calculate_xmx_pitch(width: int, element_size_bytes: int, alignment_bytes: int = 64) -> int` that computes the row pitch in bytes for a 2D matrix tile to be loaded into Intel Arc Xe Matrix Extension (XMX) systolic arrays. The pitch must be aligned upwards to the hardware cache boundary (default 64 bytes).",
   "target_invariant": "Row pitch must satisfy: pitch = ((width * element_size_bytes + alignment - 1) // alignment) * alignment.",
   "timeout_seconds": 30.0
 }
