@@ -9,3 +9,4 @@ results/live_*
 *.log
 *.mp4
 build_video/
+video_slides/
