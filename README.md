@@ -208,3 +208,14 @@ When vibe coding is guided with:
 4. **Relentless Patience:** Debugging real device errors and physical silicon bottlenecks step by step.
 
 Vibe coding can conquer deep, non-trivial, production-grade systems engineering. The limitation today is not AI intelligence or developer pedigree — it is having the right vision, relentless patience, and disciplined verification harnesses.
+
+### 🤍 The Human Reality: Building Under Constraints & Future Roadmap
+To share an authentic, unfiltered glimpse into how this was built:
+
+My long-term goal and obsession is to continue pushing accelerator performance, refining hardware execution bounds, and improving these benchmarks far beyond what is captured here today.
+
+However, I am currently navigating real-life constraints: **I have been unemployed for the past 3 months**, with **zero budget for paid AI subscriptions, cloud GPU clusters, or proprietary API tiers**.
+
+Every prompt, iteration, and breakthrough in this project was achieved by working within the strict daily reset limits of free-tier AI tools. Whenever a free quota window opens, I dedicate every available minute to coding, verifying invariants, and optimizing physical silicon throughput on my local Intel Arc machine.
+
+If this evaluation demonstrates high technical rigor, it is proof of what can be accomplished with sheer grit, unyielding patience, and deep conviction — even with zero budget. I intend to take these benchmarks and execution engines much further as opportunities and resources become available.
