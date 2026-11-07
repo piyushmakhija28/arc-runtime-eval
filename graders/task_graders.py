@@ -15,9 +15,9 @@ class SyclUsmBarrierGrader(TaskGrader):
 
     def grade(self, output: str) -> Tuple[float, Dict[str, Any]]:
         code = AstInvariantChecker.extract_code_block(output, "cpp")
-        has_depends_on = bool(re.search(r"h\.depends_on\s*\(\s*(\w+)\s*\)", code)) or "depends_on" in code
-        has_event_capture = bool(re.search(r"auto\s+(\w+)\s*=\s*q\.memcpy", code)) or "event" in code
-        has_forbidden_wait = bool(re.search(r"q\.wait\s*\(\s*\)", code))
+        has_depends_on = bool(re.search(r"(\w+)\.depends_on\s*\(\s*(\w+)\s*\)", code))
+        has_event_capture = bool(re.search(r"(?:sycl::event|auto)\s+(\w+)\s*=\s*(?:\w+)\.memcpy", code))
+        has_forbidden_wait = bool(re.search(r"(?:\w+)\.wait\s*\(\s*\)", code))
 
         passed = has_depends_on and has_event_capture and not has_forbidden_wait
         score = 1.0 if passed else 0.0
