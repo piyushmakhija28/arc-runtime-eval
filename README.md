@@ -87,11 +87,22 @@ Evaluations conducted on **November 7, 2026** across both Live Local Hardware In
 | Model ID | Provider | Execution Engine | Tasks | Trials | Pass@1 | Pass^k ($k=3$) | 95% Wilson CI | Full Run Cost |
 |:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Oracle (Reference)** | Ground Truth | Native Verified Python | 8 | 24 | **100.0%** | **100.0%** | [86.2%, 100.0%] | $0.00 |
+| **Claude 3.5 Sonnet (`20241022`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **25.0%** | **0.0%** | [7.2%, 59.1%] | ~$0.01 |
+| **GPT-4o (`gpt-4o-2024-08-06`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **12.5%** | **0.0%** | [2.2%, 47.1%] | ~$0.01 |
+| **Gemini 1.5 Pro** | Frontier Probe | Cloud API / Replay | 8 | 24 | **12.5%** | **0.0%** | [2.2%, 47.1%] | ~$0.01 |
 | **Qwen-2.5-1.5B** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
 | **Qwen-0.5B-NPU** | **Live Real Model** | **Intel Arc GPU (Local)** | 8 | 8 | **0.0%** | **0.0%** | [0.0%, 32.4%] | $0.00 |
-| **GPT-4o (`gpt-4o-2024-08-06`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
-| **Claude 3.5 Sonnet (`20241022`)** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
-| **Gemini 1.5 Pro** | Frontier Probe | Cloud API / Replay | 8 | 24 | **0.0%** | **0.0%** | [0.0%, 13.8%] | ~$0.01 |
+
+#### Task Failure Breakdown & Model Vulnerabilities
+* **Task 01 (`sycl_usm_barrier`):** Gemini 1.5 Pro solved in trial 2 by including `h.depends_on()`, but GPT-4o and Claude failed on other trials by omitting non-blocking DMA dependencies.
+* **Task 02 (`xmx_2d_block_pitch`):** **100% Failure across all models.** Every LLM calculated naive `width * element_size` ($508$ bytes), failing to pad to the $64$-byte cacheline pitch ($512$ bytes).
+* **Task 03 (`ipex_int4_dequant_stride`):** **100% Failure across all models.** Models inverted low/high nibble unpacking order (`byte >> 4` vs `byte & 0x0F`), corrupting activation weights.
+* **Task 04 (`paged_attention_strides`):** **100% Failure across all models.** Every model omitted `num_heads` in the physical page table stride formula, causing immediate memory address corruption.
+* **Task 05 (`ooo_queue_cross_sync`):** **100% Failure across all models.** Models introduced host-blocking `queue.wait()` anti-patterns, stalling the host CPU instead of asynchronous event synchronization.
+* **Task 06 (`openvino_npu_subgraph`):** Claude 3.5 Sonnet and GPT-4o passed by strictly requiring static dimension ranks (`len(dim) > 0 and all(isinstance(d, int) for d in dim)`).
+* **Task 07 (`speculative_token_mask`):** Claude 3.5 Sonnet passed on trial 1 by constructing a prefix-scan mask, but failed on trials 2 & 3 due to off-by-one boundary conditions.
+* **Task 08 (`slm_bank_conflict_pad`):** **100% Failure across all models.** Models failed to ensure $\gcd(\text{stride}, 16) == 1$, triggering full 16-way bank conflict serialization.
+* **Key Consistency Finding ($\text{Pass}^k = 0.0\%$):** Even though top frontier models occasionally solve 1–2 tasks in isolation ($\text{Pass}@1 \in [12.5\%, 25.0\%]$), **multi-trial consistency across all 8 tasks drops to absolute 0.0%**, rendering raw zero-shot generation unsafe for production hardware compilers.
 
 *Note: All raw trial transcripts with actual full prompts, model completions, execution latency, and failure diagnostic metadata are stored in `transcripts/`.*
 
