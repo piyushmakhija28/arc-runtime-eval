@@ -44,63 +44,48 @@ def draw_card(draw: ImageDraw.ImageDraw, x1, y1, x2, y2, bg="#1E293B", border="#
     draw.rounded_rectangle([x1, y1, x2, y2], radius=radius, fill=bg, outline=border, width=border_width)
 
 def draw_presenter_bubble(img: Image.Image):
-    """Draws Google Vids @me style circular presenter bubble in the bottom right corner."""
+    """Draws sleek executive speaker bubble in the top right header area."""
     if not AVATAR_PATH.exists():
         return
     
     avatar = Image.open(AVATAR_PATH).convert("RGBA")
-    bubble_size = 115
+    bubble_size = 96
     avatar = avatar.resize((bubble_size, bubble_size), Image.Resampling.LANCZOS)
     
     mask = Image.new("L", (bubble_size, bubble_size), 0)
     mask_draw = ImageDraw.Draw(mask)
     mask_draw.ellipse((0, 0, bubble_size, bubble_size), fill=255)
     
-    ring_size = bubble_size + 10
+    ring_size = bubble_size + 8
     ring = Image.new("RGBA", (ring_size, ring_size), (0, 0, 0, 0))
     ring_draw = ImageDraw.Draw(ring)
-    ring_draw.ellipse((0, 0, ring_size, ring_size), fill="#8B5CF6", outline="#C084FC", width=3)
+    ring_draw.ellipse((0, 0, ring_size, ring_size), fill="#8B5CF6", outline="#38BDF8", width=3)
     
-    pos_x = WIDTH - ring_size - 40
-    pos_y = HEIGHT - ring_size - 25
-    
-    img.paste(ring, (pos_x, pos_y), ring)
-    img.paste(avatar, (pos_x + 5, pos_y + 5), mask)
+    pos_x = WIDTH - ring_size - 70
+    pos_y = 50
     
     badge_draw = ImageDraw.Draw(img)
-    badge_x = pos_x - 280
-    badge_y = pos_y + 35
-    draw_card(badge_draw, badge_x, badge_y, pos_x - 12, badge_y + 55, bg="#0F172A", border="#475569", border_width=1, radius=10)
-    badge_draw.text((badge_x + 14, badge_y + 7), "Piyush Makhija (@me)", fill="#F8FAFC", font=get_font(15, bold=True))
-    badge_draw.text((badge_x + 14, badge_y + 30), "Hardware AI Runtime Researcher", fill="#94A3B8", font=get_font(12))
+    badge_w = 230
+    badge_h = 56
+    badge_x = pos_x - badge_w - 16
+    badge_y = pos_y + (ring_size - badge_h) // 2
+    draw_card(badge_draw, badge_x, badge_y, badge_x + badge_w, badge_y + badge_h, bg="#0F172A", border="#38BDF8", border_width=1, radius=10)
+    badge_draw.text((badge_x + 14, badge_y + 8), "Piyush Makhija", fill="#F8FAFC", font=get_font(15, bold=True))
+    badge_draw.text((badge_x + 14, badge_y + 30), "Systems Architect", fill="#38BDF8", font=get_font(12, bold=True))
 
-def draw_cc_box(img: Image.Image, text: str):
-    """Draws sleek, modern built-in Closed Captions (CC) box centered at bottom."""
-    draw = ImageDraw.Draw(img)
-    
-    box_x1 = 80
-    box_y1 = HEIGHT - 110
-    box_x2 = WIDTH - 350
-    box_y2 = HEIGHT - 25
-    
-    draw.rounded_rectangle([box_x1, box_y1, box_x2, box_y2], radius=12, fill="#0B132B", outline="#0284C7", width=2)
-    
-    badge_w = 46
-    badge_h = 26
-    badge_x = box_x1 + 18
-    badge_y = box_y1 + 15
-    draw.rounded_rectangle([badge_x, badge_y, badge_x + badge_w, badge_y + badge_h], radius=6, fill="#06B6D4")
-    draw.text((badge_x + 8, badge_y + 3), "CC", fill="#0F172A", font=get_font(14, bold=True))
-    
-    text_x = badge_x + badge_w + 18
-    text_y = box_y1 + 14
+    img.paste(ring, (pos_x, pos_y), ring)
+    img.paste(avatar, (pos_x + 4, pos_y + 4), mask)
+
+def draw_broadcast_subtitles(img: Image.Image, text: str):
+    """Renders authentic broadcast-grade centered closed captions with dynamic translucent backdrop."""
+    font = get_font(23, bold=True)
     
     words = text.split()
     lines = []
     curr = []
     for w in words:
         test_line = " ".join(curr + [w])
-        if len(test_line) > 88:
+        if len(test_line) > 64:
             lines.append(" ".join(curr))
             curr = [w]
         else:
@@ -108,8 +93,56 @@ def draw_cc_box(img: Image.Image, text: str):
     if curr:
         lines.append(" ".join(curr))
     
-    for i, line in enumerate(lines[:2]):
-        draw.text((text_x, text_y + (i * 26)), line, fill="#F8FAFC", font=get_font(17, bold=True))
+    lines = lines[:2]
+    if not lines:
+        return
+
+    line_metrics = []
+    dummy_img = Image.new("RGBA", (1, 1))
+    dummy_draw = ImageDraw.Draw(dummy_img)
+    for line in lines:
+        bbox = dummy_draw.textbbox((0, 0), line, font=font)
+        w = bbox[2] - bbox[0]
+        h = bbox[3] - bbox[1]
+        line_metrics.append((w, h))
+    
+    max_w = max(w for w, h in line_metrics)
+    line_spacing = 36
+    total_text_h = len(lines) * line_spacing
+    
+    pad_x = 28
+    pad_y = 12
+    pill_w = max_w + (pad_x * 2)
+    pill_h = total_text_h + (pad_y * 2)
+    
+    pill_x1 = (WIDTH - pill_w) // 2
+    pill_y2 = HEIGHT - 45
+    pill_y1 = pill_y2 - pill_h
+    
+    overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
+    overlay_draw = ImageDraw.Draw(overlay)
+    
+    overlay_draw.rounded_rectangle(
+        [pill_x1, pill_y1, pill_x1 + pill_w, pill_y2],
+        radius=14,
+        fill=(5, 11, 22, 225),
+        outline=(56, 189, 248, 120),
+        width=1
+    )
+    
+    rgba_img = img.convert("RGBA")
+    composited = Image.alpha_composite(rgba_img, overlay)
+    
+    text_draw = ImageDraw.Draw(composited)
+    for i, line in enumerate(lines):
+        line_w = line_metrics[i][0]
+        line_x = (WIDTH - line_w) // 2
+        line_y = pill_y1 + pad_y + (i * line_spacing) + 2
+        
+        text_draw.text((line_x + 1, line_y + 1), line, fill=(0, 0, 0, 200), font=font)
+        text_draw.text((line_x, line_y), line, fill="#FFFFFF", font=font)
+        
+    img.paste(composited.convert("RGB"))
 
 def render_base_slide(scene_idx: int) -> Image.Image:
     """Renders clean 1080p base slide graphics without CC box."""
@@ -450,9 +483,9 @@ def main():
             generate_sentence_audio(text, wav_path)
             dur = get_audio_duration(wav_path)
             
-            # Frame with built-in CC box
+            # Frame with authentic broadcast subtitles
             frame_img = base_img.copy()
-            draw_cc_box(frame_img, text)
+            draw_broadcast_subtitles(frame_img, text)
             frame_path = BUILD_DIR / f"frame_{scene_idx}_{sent_idx}.png"
             frame_img.save(frame_path)
             
